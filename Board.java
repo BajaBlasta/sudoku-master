@@ -43,6 +43,11 @@ public class Board extends JPanel {
 	public void setSquare(int r, int c, short val) {
 		board[r][c].updateSquare(val);
 	}
+	
+	//returns the square at the specified location on the board
+	public Square getSquare(int r, int c){
+		return board[r][c];
+	}
 
 	//resets the board with a random new board at a specified difficulty
 	public void reset(int diff) {
