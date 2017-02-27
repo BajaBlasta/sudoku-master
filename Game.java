@@ -122,4 +122,42 @@ public class Game extends JFrame {
 					gameBoard.setSquare(i, j, reader.nextShort());
 		}
 	}
+	
+	//Creates a new text file with a user specified name in the saves directory,
+	//then writes the current board information into the file
+	public void save(){
+		String fileName = System.getProperty("user.dir") + "/saves/" + JOptionPane.showInputDialog("Enter a name for the save file:") + ".txt";
+		File file = new File(fileName);
+		FileWriter writer;
+		int size = gameBoard.getBoardSize();
+		
+		//Tries to create a new file with the given information
+		try {
+			file.createNewFile();
+		} catch (IOException e1) {
+			JOptionPane.showMessageDialog(null, "Invalid file");
+			return;
+		}
+		
+		//Tries to create a new FileWriter to write to the new file
+		try {
+			writer = new FileWriter(file);
+			writer.write("Sudoku Board" + System.getProperty("line.separator"));
+			writer.write(size + System.getProperty("line.separator"));
+			writer.write("1" + System.getProperty("line.separator"));			//Once there is a timer, replace this with the current time
+			
+			for(int i = 0; i < size; ++i){
+				for(int j = 0; j < size; ++j)
+				{
+					writer.write((int)gameBoard.getSquare(i, j).getValue() + " ");
+				}
+				writer.write(System.getProperty("line.separator"));
+			}
+			writer.close();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Invalid file");
+			return;
+		}
+		JOptionPane.showMessageDialog(null, "File saved successfully");
+	}
 }
