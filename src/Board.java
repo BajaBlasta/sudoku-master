@@ -22,7 +22,7 @@ public class Board extends JPanel {
 	public Board(int diff) {
 		//Load in the background image
 		try {                
-			image = ImageIO.read(new File("src/board.png"));
+			image = ImageIO.read(new File("src/resources/board.png"));
 		} catch (IOException ex) {
 			System.out.println("Image not found!");
 		}
