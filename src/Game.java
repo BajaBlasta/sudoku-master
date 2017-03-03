@@ -39,6 +39,9 @@ public class Game extends JFrame {
 		JMenuItem medium = new JMenuItem("Medium");
 		JMenuItem hard = new JMenuItem("Hard");
 		JMenu helpMenu = new JMenu("Help");
+		JMenuBar doneBar = new JMenuBar();
+		JButton done = new JButton("Done");
+		done.setBackground(Color.WHITE); //make prettier later
 		gameBoard = new Board(difficulty);
 
 		//adds components to the frame
@@ -56,8 +59,10 @@ public class Game extends JFrame {
 		easy.addActionListener(e -> easy());
 		medium.addActionListener(e -> medium());
 		hard.addActionListener(e -> hard());
+		done.addActionListener(l -> done(endCheck()));
 		add(menuBar, BorderLayout.NORTH);
 		add(gameBoard, BorderLayout.CENTER);
+		add(doneBar, BorderLayout.SOUTH);
 
 		//scales the frame to fit panel size
 		gameBoard.setPreferredSize(new Dimension(gameBoard.getWidth(), gameBoard.getHeight() + menuBar.getHeight()));
