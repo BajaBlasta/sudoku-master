@@ -120,6 +120,10 @@ public class Board extends JPanel {
 	
 	//return the size of the board
 	public int getBoardSize() { return SIZE; }
+	
+	public short[] getSolution() { return solution; }
+	
+	public Square[][] getBoard() { return board; }
 
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
