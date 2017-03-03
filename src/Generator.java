@@ -122,8 +122,6 @@ public class Generator {
 					}
 				}
 			}
-			printSudoku(solution);
-			System.out.println();
 		}
 	}
 	
