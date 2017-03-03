@@ -188,4 +188,26 @@ public class Game extends JFrame {
 		dispose(); //disposes old game and creates a new one w/ hard difficulty
 		Game game = new Game(3);
 	}
+	public boolean endCheck(){ //not finished
+	Square[][] temp = gameBoard.getBoard();
+	short[] solution = gameBoard.getSolution();
+	int i = 0;	
+		while ( i < 91){
+			for(int j = 0; j < 9; ++j){
+				for(int k = 0; k < 9; ++k){
+					if(!(temp[j][k].getValue() == solution[i]) )
+						return false; 
+				}
+			}
+		}
+		return true;
+	}
+	public void done(boolean correct){
+		if(correct){
+			Alert alert = new Alert(true);
+		}
+		else{
+			Alert alert = new Alert(false);
+		}
+	}
 }
