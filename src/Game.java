@@ -199,12 +199,14 @@ public class Game extends JFrame {
 	Square[][] temp = gameBoard.getBoard();
 	short[] solution = gameBoard.getSolution();
 	int i = 0;	
-		while ( i < 91){
+		while ( i < 81){
 			for(int j = 0; j < 9; ++j){
 				for(int k = 0; k < 9; ++k){
 					if(!(temp[j][k].getValue() == solution[i]) )
 						return false; 
+					i++;
 				}
+				i++;
 			}
 		}
 		return true;
