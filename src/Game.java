@@ -48,6 +48,7 @@ public class Game extends JFrame {
 		fileMenu.add(newGame);
 		fileMenu.add(save);
 		fileMenu.add(load);
+		doneBar.add(done);
 		menuBar.add(fileMenu);
 		menuBar.add(settingsMenu);
 		settingsMenu.add(difficultyMenu);
