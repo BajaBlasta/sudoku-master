@@ -56,6 +56,7 @@ public class Game extends JFrame {
 		difficultyMenu.add(hard);
 		menuBar.add(helpMenu);
 		load.addActionListener(e -> load());
+		save.addActionListener(e -> save());
 		easy.addActionListener(e -> easy());
 		medium.addActionListener(e -> medium());
 		hard.addActionListener(e -> hard());
