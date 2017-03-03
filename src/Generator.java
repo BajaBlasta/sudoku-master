@@ -172,4 +172,38 @@ public class Generator {
 		solveSudoku(input, solution);
 		printSudoku(solution);
 	}
+	
+	public static void testSolver2() {
+		short[] input = new short[] {
+			0, 0, 8,  2, 5, 3,  1, 4, 0,	
+			0, 3, 0,  4, 0, 0,  0, 0, 8,	
+			1, 0, 5,  0, 6, 8,  3, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 3, 0,	
+			9, 7, 0,  5, 0, 4,  0, 1, 6,	
+			0, 5, 0,  0, 0, 0,  0, 0, 0,	
+			0, 0, 6,  3, 8, 0,  2, 0, 4,	
+			5, 0, 0,  0, 0, 9,  0, 8, 0,	
+			0, 8, 9,  1, 2, 7,  6, 0, 0
+		};
+		short[] solution = new short[81];
+		solveSudoku(input, solution);
+		printSudoku(solution);
+	}
+	
+	public static void testSolver3() {
+		short[] input = new short[] {
+			1, 0, 0,  0, 0, 0,  0, 0, 3,	
+			7, 0, 2,  3, 5, 0,  0, 0, 0,	
+			0, 3, 0,  0, 0, 8,  0, 6, 0,	
+			5, 0, 0,  0, 2, 0,  4, 0, 0,	
+			0, 0, 7,  0, 0, 0,  2, 0, 0,	
+			0, 0, 4,  0, 7, 0,  0, 0, 8,	
+			0, 9, 0,  8, 0, 0,  0, 5, 0,	
+			0, 0, 0,  0, 1, 9,  7, 0, 6,	
+			8, 0, 0,  0, 0, 0,  0, 0, 1
+		};
+		short[] solution = new short[81];
+		solveSudoku(input, solution);
+		printSudoku(solution);
+	}
 }
