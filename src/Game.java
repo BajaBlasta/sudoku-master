@@ -19,7 +19,7 @@ public class Game extends JFrame {
 
 	private Board gameBoard;
 	
-	public Game() {
+	public Game(int difficulty) {
 		//sets up the JFrame
 		setTitle("Sudoku");
 		setResizable(false);
@@ -34,8 +34,12 @@ public class Game extends JFrame {
 		JMenuItem save = new JMenuItem("Save");
 		JMenuItem load = new JMenuItem("Load");
 		JMenu settingsMenu = new JMenu("Settings");
+		JMenu difficultyMenu = new JMenu("Change Difficulty (Creates New Game)");
+		JMenuItem easy = new JMenuItem("Easy");
+		JMenuItem medium = new JMenuItem("Medium");
+		JMenuItem hard = new JMenuItem("Hard");
 		JMenu helpMenu = new JMenu("Help");
-		gameBoard = new Board(3);
+		gameBoard = new Board(difficulty);
 
 		//adds components to the frame
 		fileMenu.add(newGame);
@@ -43,8 +47,15 @@ public class Game extends JFrame {
 		fileMenu.add(load);
 		menuBar.add(fileMenu);
 		menuBar.add(settingsMenu);
+		settingsMenu.add(difficultyMenu);
+		difficultyMenu.add(easy);
+		difficultyMenu.add(medium);
+		difficultyMenu.add(hard);
 		menuBar.add(helpMenu);
 		load.addActionListener(e -> load());
+		easy.addActionListener(e -> easy());
+		medium.addActionListener(e -> medium());
+		hard.addActionListener(e -> hard());
 		add(menuBar, BorderLayout.NORTH);
 		add(gameBoard, BorderLayout.CENTER);
 
@@ -161,5 +172,20 @@ public class Game extends JFrame {
 			return;
 		}
 		JOptionPane.showMessageDialog(null, "File saved successfully");
+	}
+	
+	public void easy() {
+		dispose(); //disposes old game and creates a new one w/ easy difficulty
+		Game game = new Game(1);
+	}
+	
+	public void medium() {
+		dispose(); //disposes old game and creates a new one w/ medium difficulty
+		Game game = new Game(2);
+	}
+	
+	public void hard() {
+		dispose(); //disposes old game and creates a new one w/ hard difficulty
+		Game game = new Game(3);
 	}
 }
