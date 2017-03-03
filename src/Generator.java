@@ -81,6 +81,60 @@ public class Generator {
 		return options;
 	}
 	
+	public static void solveSudoku(short[] input, short[] solution) {
+		if((input.length != solution.length) || (input.length != (SIZE*SIZE*SIZE*SIZE)))
+			return;
+		for(int i = 0; i < solution.length; i++)
+			solution[i] = input[i];
+		LinkedList<ArrayList<Short>> stack = new LinkedList<ArrayList<Short>>();
+		ArrayList<Short> options;
+		boolean forward = true;
+		int index = 0;
+		while(index < input.length && index >= 0) {
+			if(input[index] > 0) {
+				if(forward)
+					index++;
+				else
+					index--;
+			} else {
+				if(forward) {
+					options = getOptions(index, solution);
+					if(options.size() > 0) {
+						short choice = options.remove(rand.nextInt(options.size()));
+						solution[index] = choice;
+						stack.addLast(options);
+						index++;
+					} else {
+						forward = false;
+						index--;
+					}
+				} else {
+					options = stack.removeLast();
+					if(options.size() > 0) {
+						short choice = options.remove(rand.nextInt(options.size()));
+						solution[index] = choice;
+						stack.addLast(options);
+						forward = true;
+						index++;
+					} else {
+						solution[index] = 0;
+						index--;
+					}
+				}
+			}
+			printSudoku(solution);
+			System.out.println();
+		}
+	}
+	
+	public static short[] generateSudoku() {
+		short[] input = new short[81];
+		short[] solution = new short[81];
+		solveSudoku(input, solution);
+		return solution;
+	}
+
+	/*
 	public static short[] generateSudoku() {
 		short[] sudoku = new short[(SIZE*SIZE*SIZE*SIZE)];
 		LinkedList<ArrayList<Short>> stack = new LinkedList<ArrayList<Short>>();
@@ -101,5 +155,23 @@ public class Generator {
 			}
 		}
 		return sudoku;
+	}
+	*/
+	
+	public static void testSolver() {
+		short[] input = new short[] {
+			1, 2, 4,  0, 0, 0,  0, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 8, 0
+		};
+		short[] solution = new short[81];
+		solveSudoku(input, solution);
+		printSudoku(solution);
 	}
 }
