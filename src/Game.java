@@ -18,6 +18,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Game extends JFrame {
 
 	private Board gameBoard;
+	private Timer timer;
+	private JTextField field;
+	private int seconds;
+	private int minutes;
 	
 	public Game(int difficulty) {
 		//sets up the JFrame
@@ -65,6 +69,14 @@ public class Game extends JFrame {
 		add(menuBar, BorderLayout.NORTH);
 		add(gameBoard, BorderLayout.CENTER);
 		add(doneBar, BorderLayout.SOUTH);
+		
+		//adds timer to the frame
+		seconds = 0;
+		minutes = 0;
+		field = new JTextField("Time: 0:00");
+		timer = new Timer(1000, e -> updateTime());
+		timer.start();
+		add(field, BorderLayout.SOUTH);
 
 		//scales the frame to fit panel size
 		gameBoard.setPreferredSize(new Dimension(gameBoard.getWidth(), gameBoard.getHeight() + menuBar.getHeight()));
@@ -77,14 +89,16 @@ public class Game extends JFrame {
   
       "Sudoku Board" (typed exactly as shown, ignoring the quotations)
       board size, represented by an integer
-      time (in seconds), represented by an integer
+      time (minutes), represented by an integer
+      time (seconds), represented by an integer
       list of every number on the board, each represented by an integer and separated by a whitespace delimiter
       
       Example file:
       
       Sudoku Board
       9
-      157
+      0
+      27
       1 2 3 4 5 6 7 8 0
       1 2 3 4 5 6 7 0 9
       1 2 3 4 5 6 0 8 9
@@ -101,7 +115,7 @@ public class Game extends JFrame {
 		//Creates a new pop-up to allow the user to select a save file
 		JFileChooser fc = new JFileChooser();
 		File file = null;
-		File directory = new File(System.getProperty("user.dir") + "/saves");
+		File directory = new File(System.getProperty("user.dir") + "/src/resources/saves/");
 		fc.setCurrentDirectory(directory);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
 		fc.setFileFilter(filter);
@@ -136,7 +150,8 @@ public class Game extends JFrame {
 			return;
 		} else { //If it is a valid save file, completes the load operation	          
 			int size = reader.nextInt();
-			int time = reader.nextInt();
+			minutes = reader.nextInt();
+			seconds = reader.nextInt();
 			for(int i = 0; i < size; ++i)
 				for(int j = 0; j < size; ++j)
 					gameBoard.setSquare(i, j, reader.nextShort());
@@ -145,8 +160,9 @@ public class Game extends JFrame {
 	
 	//Creates a new text file with a user specified name in the saves directory,
 	//then writes the current board information into the file
-	public void save(){
-		String fileName = System.getProperty("user.dir") + "/saves/" + JOptionPane.showInputDialog("Enter a name for the save file:") + ".txt";
+	public void save() {
+		String fileName = System.getProperty("user.dir") + "/src/resources/saves/" + 
+				  JOptionPane.showInputDialog("Enter a name for the save file (do not include file extension):") + ".txt";
 		File file = new File(fileName);
 		FileWriter writer;
 		int size = gameBoard.getBoardSize();
@@ -164,7 +180,8 @@ public class Game extends JFrame {
 			writer = new FileWriter(file);
 			writer.write("Sudoku Board" + System.getProperty("line.separator"));
 			writer.write(size + System.getProperty("line.separator"));
-			writer.write("1" + System.getProperty("line.separator"));			//Once there is a timer, replace this with the current time
+			writer.write(minutes + System.getProperty("line.separator"));
+			writer.write(seconds + System.getProperty("line.separator"));
 			
 			for(int i = 0; i < size; ++i){
 				for(int j = 0; j < size; ++j)
@@ -218,5 +235,18 @@ public class Game extends JFrame {
 		else{
 			Alert alert = new Alert(false);
 		}
+	}
+	
+	public void updateTime() {
+		seconds += timer.getDelay() / 1000;
+		
+		if(seconds >= 60) {
+			seconds = 0;
+			minutes++;
+		}
+		if(seconds <= 9)
+			field.setText("Time: " + minutes + ":0" + seconds);
+		else
+			field.setText("Time: " + minutes + ":" + seconds);
 	}
 }
