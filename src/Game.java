@@ -49,8 +49,7 @@ public class Game extends JFrame {
 		JMenuItem medium = new JMenuItem("Medium");
 		JMenuItem hard = new JMenuItem("Hard");
 		JMenu helpMenu = new JMenu("Help");
-		JMenuBar doneBar = new JMenuBar();
-		JButton done = new JButton("Done");
+		JMenuItem done = new JMenuItem("Done");
 		done.setBackground(Color.WHITE); //make prettier later
 		gameBoard = new Board(difficulty);
 
@@ -58,9 +57,10 @@ public class Game extends JFrame {
 		fileMenu.add(newGame);
 		fileMenu.add(save);
 		fileMenu.add(load);
-		doneBar.add(done);
+		fileMenu.add(done);
 		menuBar.add(fileMenu);
 		menuBar.add(settingsMenu);
+		menuBar.add(done);
 		settingsMenu.add(difficultyMenu);
 		difficultyMenu.add(easy);
 		difficultyMenu.add(medium);
@@ -72,10 +72,10 @@ public class Game extends JFrame {
 		easy.addActionListener(e -> easy());
 		medium.addActionListener(e -> medium());
 		hard.addActionListener(e -> hard());
-		done.addActionListener(l -> done(endCheck()));
+		done.addActionListener(e -> done(endCheck(gameBoard.getBoard(),gameBoard.getSolution(),gameBoard.getBoardSize())));
 		add(menuBar, BorderLayout.NORTH);
 		add(gameBoard, BorderLayout.CENTER);
-		add(doneBar, BorderLayout.SOUTH);
+		
 		
 		//adds timer to the frame
 		seconds = 0;
@@ -295,22 +295,21 @@ public class Game extends JFrame {
 		newGame.setVisible(true);
 	}
 	
-	public boolean endCheck(){ //not finished
-	Square[][] temp = gameBoard.getBoard();
-	short[] solution = gameBoard.getSolution();
-	int i = 0;	
-		while ( i < 81){
-			for(int j = 0; j < 9; ++j){
-				for(int k = 0; k < 9; ++k){
-					if(!(temp[j][k].getValue() == solution[i]) )
-						return false; 
-					i++;
-				}
-				i++;
+	public boolean endCheck(Square[][] temp, short[] solution, int size){ //not finished
+		int k = 0;
+		for(int i = 0; i < size; ++i )
+			for(int j = 0; j < size; ++j){
+				if(temp[i][j].getValue() != solution[k])
+					return false;
+				else
+					++k;
 			}
 		}
+				
 		return true;
+
 	}
+	
 	public void done(boolean correct){
 		if(correct){
 			Alert alert = new Alert(true);
