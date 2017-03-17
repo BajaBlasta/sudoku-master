@@ -295,7 +295,7 @@ public class Game extends JFrame {
 		newGame.setVisible(true);
 	}
 	
-	public boolean endCheck(Square[][] temp, short[] solution, int size){ //not finished
+	public boolean endCheck(Square[][] temp, short[] solution, int size){ 
 		int k = 0;
 		for(int i = 0; i < size; ++i )
 			for(int j = 0; j < size; ++j){
