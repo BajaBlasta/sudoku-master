@@ -80,16 +80,26 @@ public class Generator {
 			options.remove(new Short(s));
 		return options;
 	}
-	
-	public static void solveSudoku(short[] input, short[] solution) {
+
+	/**
+	 * @param input        sudoku to solve
+	 * @param solution     solution will be put in here
+	 * @return returns     -1 for invalid input
+	 *                     0 for no solution
+	 *                     1 for one solution
+	 *                     2 for 2 or more solutions (if there are more than two it will return 2 still)
+	 */
+	public static int solveSudoku(short[] input, short[] solution) {
 		if((input.length != solution.length) || (input.length != (SIZE*SIZE*SIZE*SIZE)))
-			return;
-		for(int i = 0; i < solution.length; i++)
-			solution[i] = input[i];
+			return -1;
+		short[] tempSolution = new short[solution.length];
+		for(int i = 0; i < tempSolution.length; i++)
+			tempSolution[i] = input[i];
 		LinkedList<ArrayList<Short>> stack = new LinkedList<ArrayList<Short>>();
 		ArrayList<Short> options;
 		boolean forward = true;
 		int index = 0;
+		int solutionCount = 0;
 		while(index < input.length && index >= 0) {
 			if(input[index] > 0) {
 				if(forward)
@@ -98,10 +108,10 @@ public class Generator {
 					index--;
 			} else {
 				if(forward) {
-					options = getOptions(index, solution);
+					options = getOptions(index, tempSolution);
 					if(options.size() > 0) {
 						short choice = options.remove(rand.nextInt(options.size()));
-						solution[index] = choice;
+						tempSolution[index] = choice;
 						stack.addLast(options);
 						index++;
 					} else {
@@ -112,17 +122,29 @@ public class Generator {
 					options = stack.removeLast();
 					if(options.size() > 0) {
 						short choice = options.remove(rand.nextInt(options.size()));
-						solution[index] = choice;
+						tempSolution[index] = choice;
 						stack.addLast(options);
 						forward = true;
 						index++;
 					} else {
-						solution[index] = 0;
+						tempSolution[index] = 0;
 						index--;
 					}
 				}
 			}
+			if(index == input.length) {
+			  for(int i = 0; i < tempSolution.length; i++) {
+			    solution[i] = tempSolution[i];
+			  }
+			  solutionCount++;
+			  index--;
+			  forward = false;
+			}
+			if(solutionCount > 1) {
+			  return 2;
+			}
 		}
+		return solutionCount;
 	}
 	
 	public static short[] generateSudoku() {
@@ -155,6 +177,18 @@ public class Generator {
 		return sudoku;
 	}
 	*/
+	
+	public static boolean isUniqelySolvable(short[] sudoku) {
+	  short[] solution = new short[sudoku.length];
+	  int numSolutions = solveSudoku(sudoku, solution);
+	  return numSolutions == 1;
+	}
+	
+	public static boolean isSolvable(short[] sudoku) {
+	  short[] solution = new short[sudoku.length];
+	  int numSolutions = solveSudoku(sudoku, solution);
+	  return numSolutions > 0;
+	}
 	
 	public static void testSolver() {
 		short[] input = new short[] {
@@ -204,6 +238,60 @@ public class Generator {
 		};
 		short[] solution = new short[81];
 		solveSudoku(input, solution);
+		printSudoku(solution);
+	}
+	
+	public static void testSolver4() {
+		short[] input = new short[] {
+			1, 2, 4,  0, 0, 0,  0, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 0, 0,	
+			0, 0, 0,  0, 0, 0,  0, 8, 0
+		};
+		short[] solution = new short[81];
+		int solutions = solveSudoku(input, solution);
+		System.out.println("number of solutions:" + solutions);
+		printSudoku(solution);
+	}
+	
+	public static void testSolver5() {
+		short[] input = new short[] {
+			1, 0, 0,  0, 0, 0,  0, 0, 3,	
+			7, 0, 2,  3, 5, 0,  0, 0, 0,	
+			0, 3, 0,  0, 0, 8,  0, 6, 0,	
+			5, 0, 0,  0, 2, 0,  4, 0, 0,	
+			0, 0, 7,  0, 0, 0,  2, 0, 0,	
+			0, 0, 4,  0, 7, 0,  0, 0, 8,	
+			0, 9, 0,  8, 0, 0,  0, 5, 0,	
+			0, 0, 0,  0, 1, 9,  7, 0, 6,	
+			8, 0, 0,  0, 0, 0,  0, 0, 1
+		};
+		short[] solution = new short[81];
+		int solutions = solveSudoku(input, solution);
+		System.out.println("number of solutions:" + solutions);
+		printSudoku(solution);
+	}
+	
+	public static void testSolver6() {
+		short[] input = new short[] {
+			1, 1, 0,  0, 0, 0,  0, 0, 3,	
+			7, 0, 2,  3, 5, 0,  0, 0, 0,	
+			0, 3, 0,  0, 0, 8,  0, 6, 0,	
+			5, 0, 0,  0, 2, 0,  4, 0, 0,	
+			0, 0, 7,  0, 0, 0,  2, 0, 0,	
+			0, 0, 4,  0, 7, 0,  0, 0, 8,	
+			0, 9, 0,  8, 0, 0,  0, 5, 0,	
+			0, 0, 0,  0, 1, 9,  7, 0, 6,	
+			8, 0, 0,  0, 0, 0,  0, 0, 1
+		};
+		short[] solution = new short[81];
+		int solutions = solveSudoku(input, solution);
+		System.out.println("number of solutions:" + solutions);
 		printSudoku(solution);
 	}
 }
