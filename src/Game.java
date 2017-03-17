@@ -44,7 +44,7 @@ public class Game extends JFrame {
 		JMenuItem save = new JMenuItem("Save");
 		JMenuItem load = new JMenuItem("Load");
 		JMenu settingsMenu = new JMenu("Settings");
-		JMenu difficultyMenu = new JMenu("Change Difficulty (Creates New Game)");
+		JMenu difficultyMenu = new JMenu("Change Difficulty");
 		JMenuItem easy = new JMenuItem("Easy");
 		JMenuItem medium = new JMenuItem("Medium");
 		JMenuItem hard = new JMenuItem("Hard");
