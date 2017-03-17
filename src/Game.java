@@ -66,6 +66,7 @@ public class Game extends JFrame {
 		menuBar.add(helpMenu);
 		load.addActionListener(e -> load());
 		save.addActionListener(e -> save());
+		newGame.addActionListener(e -> newGame());
 		easy.addActionListener(e -> easy());
 		medium.addActionListener(e -> medium());
 		hard.addActionListener(e -> hard());
@@ -202,20 +203,96 @@ public class Game extends JFrame {
 		JOptionPane.showMessageDialog(null, "File saved successfully");
 	}
 	
-	public void easy() {
-		dispose(); //disposes old game and creates a new one w/ easy difficulty
-		Game game = new Game(1);
+	public void newGame() { //creates a new dialog box prompting the user to decide if he/she wants to start a new game
+		JFrame newGame = new JFrame();
+		JPanel response = new JPanel();
+		JLabel question = new JLabel("<html>Are you sure you want to start a new game?<br>Any unsaved progress will be lost.</html>"); //need to center this text
+		newGame.setTitle("New Game");
+		newGame.setSize(300, 200);
+		newGame.setResizable(false);
+		newGame.setLayout(new BorderLayout());
+		newGame.setLocationRelativeTo(null);
+		JButton yes = new JButton("Yes");
+		JButton no = new JButton("No");
+		response.add(yes);
+		response.add(no);
+		yes.addActionListener(e -> yes(newGame, 1));
+		no.addActionListener(e -> no(newGame));
+		newGame.add(response, BorderLayout.SOUTH);
+		newGame.add(question, BorderLayout.CENTER);
+		newGame.setVisible(true);
 	}
 	
-	public void medium() {
-		dispose(); //disposes old game and creates a new one w/ medium difficulty
-		Game game = new Game(2);
+	public void yes(JFrame newGame, int difficulty) { //if the user wants a new game then clear current gameboard and dialog box
+		newGame.dispose();
+		dispose();
+		Game game = new Game(difficulty);
+	}
+		
+	public void no(JFrame newGame) { //if the user doesn't want a new game just close the dialog box
+		newGame.dispose();
 	}
 	
-	public void hard() {
-		dispose(); //disposes old game and creates a new one w/ hard difficulty
-		Game game = new Game(3);
+	public void easy() { //creates new game w/ easy difficulty
+		JFrame newGame = new JFrame();
+		JPanel response = new JPanel();
+		JLabel question = new JLabel("<html>Are you sure you want to change difficulty to easy?<br>Any unsaved progress will be lost.</html>"); //need to center this text
+		newGame.setTitle("New Game");
+		newGame.setSize(300, 200);
+		newGame.setResizable(false);
+		newGame.setLayout(new BorderLayout());
+		newGame.setLocationRelativeTo(null);
+		JButton yes = new JButton("Yes");
+		JButton no = new JButton("No");
+		response.add(yes);
+		response.add(no);
+		yes.addActionListener(e -> yes(newGame, 1));
+		no.addActionListener(e -> no(newGame));
+		newGame.add(response, BorderLayout.SOUTH);
+		newGame.add(question, BorderLayout.CENTER);
+		newGame.setVisible(true);
 	}
+	
+	public void medium() { //creates new game w/ medium difficulty
+		JFrame newGame = new JFrame();
+		JPanel response = new JPanel();
+		JLabel question = new JLabel("<html>Are you sure you want to change difficulty to medium?<br>Any unsaved progress will be lost.</html>"); //need to center this text
+		newGame.setTitle("New Game");
+		newGame.setSize(300, 200);
+		newGame.setResizable(false);
+		newGame.setLayout(new BorderLayout());
+		newGame.setLocationRelativeTo(null);
+		JButton yes = new JButton("Yes");
+		JButton no = new JButton("No");
+		response.add(yes);
+		response.add(no);
+		yes.addActionListener(e -> yes(newGame, 2));
+		no.addActionListener(e -> no(newGame));
+		newGame.add(response, BorderLayout.SOUTH);
+		newGame.add(question, BorderLayout.CENTER);
+		newGame.setVisible(true);
+	}
+	
+	public void hard() { //I can clean up and combine these methods later, creates new game w/ hard difficulty
+		JFrame newGame = new JFrame();
+		JPanel response = new JPanel();
+		JLabel question = new JLabel("<html>Are you sure you want to change difficulty to hard?<br>Any unsaved progress will be lost.</html>"); //need to center this text
+		newGame.setTitle("New Game");
+		newGame.setSize(300, 200);
+		newGame.setResizable(false);
+		newGame.setLayout(new BorderLayout());
+		newGame.setLocationRelativeTo(null);
+		JButton yes = new JButton("Yes");
+		JButton no = new JButton("No");
+		response.add(yes);
+		response.add(no);
+		yes.addActionListener(e -> yes(newGame, 3));
+		no.addActionListener(e -> no(newGame));
+		newGame.add(response, BorderLayout.SOUTH);
+		newGame.add(question, BorderLayout.CENTER);
+		newGame.setVisible(true);
+	}
+	
 	public boolean endCheck(){ //not finished
 	Square[][] temp = gameBoard.getBoard();
 	short[] solution = gameBoard.getSolution();
