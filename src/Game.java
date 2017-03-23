@@ -26,6 +26,7 @@ public class Game extends JFrame {
 	private Board gameBoard;
 	private Timer timer;
 	private JTextField field;
+	private JButton pauseButton;
 	private int seconds;
 	private int minutes;
 	
@@ -36,6 +37,10 @@ public class Game extends JFrame {
 		setLayout(new BorderLayout());
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		//adds button images
+		ImageIcon pause = new ImageIcon("src/resources/pause.png");
+		ImageIcon play = new ImageIcon("src/resources/play.jpg");
 
 		//creates all components
 		JMenuBar menuBar = new JMenuBar();
@@ -66,7 +71,7 @@ public class Game extends JFrame {
 		difficultyMenu.add(medium);
 		difficultyMenu.add(hard);
 		menuBar.add(helpMenu);
-		load.addActionListener(e -> load());
+		load.addActionListener(e -> load(pause));
 		save.addActionListener(e -> save());
 		newGame.addActionListener(e -> newGame());
 		easy.addActionListener(e -> easy());
@@ -84,6 +89,12 @@ public class Game extends JFrame {
 		timer = new Timer(1000, e -> updateTime());
 		timer.start();
 		add(field, BorderLayout.SOUTH);
+		
+		//adds pause button
+		pauseButton = new JButton(pause);
+		pauseButton.resize(100, 100);
+		pauseButton.addActionListener(e -> pause(pause, play));
+		add(pauseButton, BorderLayout.EAST);
 
 		//scales the frame to fit panel size
 		gameBoard.setPreferredSize(new Dimension(gameBoard.getWidth(), gameBoard.getHeight() + menuBar.getHeight()));
@@ -118,7 +129,7 @@ public class Game extends JFrame {
       
       Note: All zeroes in the text file represent an empty space on the board
 	 */
-	public void load() {
+	public void load(ImageIcon pause) {
 		//Creates a new pop-up to allow the user to select a save file
 		JFileChooser fc = new JFileChooser();
 		File file = null;
@@ -163,6 +174,9 @@ public class Game extends JFrame {
 				for(int j = 0; j < size; ++j)
 					gameBoard.setSquare(i, j, reader.nextShort());
 		}
+		
+		timer.start();
+		pauseButton.setIcon(pause);
 	}
 	
 	//Creates a new text file with a user specified name in the saves directory,
@@ -330,5 +344,16 @@ public class Game extends JFrame {
 			field.setText("Time: " + minutes + ":0" + seconds);
 		else
 			field.setText("Time: " + minutes + ":" + seconds);
+	}
+
+	public void pause(ImageIcon pause, ImageIcon play) {
+		if(timer.isRunning()) {
+			timer.stop();
+			pauseButton.setIcon(play);
+		}
+		else {
+			timer.start();
+			pauseButton.setIcon(pause);
+		}
 	}
 }
