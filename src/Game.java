@@ -333,9 +333,17 @@ public class Game extends JFrame {
 	
 	public void done(boolean correct){
 		if(correct){
+			if(timer.isRunning()) {
+				timer.stop();
+				pauseButton.setIcon(play);
+			}
 			Alert alert = new Alert(true);
 		}
 		else{
+			if(timer.isRunning()) {
+				timer.stop();
+				pauseButton.setIcon(play);
+			}
 			Alert alert = new Alert(false);
 		}
 	}
