@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
@@ -29,6 +30,14 @@ public class Generator {
 			}
 			System.out.println();
 		}
+	}
+	
+	public static void printSudoku(short[] board, LinkedList<Integer> removals) {
+		short[] temp = Arrays.copyOf(board, board.length);
+		for (int r : removals) {
+			temp[r] = 0;
+		}
+		printSudoku(temp);
 	}
 	
 	public static HashSet<Short> getSubGrid(int index, short[] sudoku) {
@@ -184,6 +193,14 @@ public class Generator {
 	  return numSolutions == 1;
 	}
 	
+	public static boolean isUniquelySolvable(short[] board, LinkedList<Integer> removals) {
+		short[] temp = Arrays.copyOf(board, board.length);
+		for (int r : removals) {
+			temp[r] = 0;
+		}
+		return isUniqelySolvable(temp);
+	}
+	
 	public static boolean isSolvable(short[] sudoku) {
 	  short[] solution = new short[sudoku.length];
 	  int numSolutions = solveSudoku(sudoku, solution);
@@ -293,5 +310,103 @@ public class Generator {
 		int solutions = solveSudoku(input, solution);
 		System.out.println("number of solutions:" + solutions);
 		printSudoku(solution);
+	}
+	
+	public static short[] generatePuzzle(int clues) {
+		short[] board = generateSudoku();
+		LinkedList<ArrayList<Integer>> stack = new LinkedList<ArrayList<Integer>>();
+		ArrayList<Integer> options = new ArrayList<Integer>();
+		LinkedList<Integer> removals = new LinkedList<Integer>();
+		for (int i = 0; i < board.length; i++) {
+			options.add(i);
+		}
+		stack.add(options);
+		while (board.length - stack.size() >= clues) {
+			options = stack.getLast();
+			if (! options.isEmpty() && board.length - stack.size() - options.size() <= clues) {
+				int selectionIndex = rand.nextInt(options.size());
+				int selection = options.remove(selectionIndex);
+				removals.addLast(selection);
+				if (isUniquelySolvable(board, removals)) {
+					ArrayList<Integer> newOptions = new ArrayList<Integer>();
+					for (int i : options) {
+						newOptions.add(i);
+					}
+					stack.add(newOptions);
+				} else {
+					removals.removeLast();
+				}
+			} else {
+				stack.removeLast();
+				removals.removeLast();
+			}
+		}
+		
+		short[] temp = Arrays.copyOf(board, board.length);
+		for (int r : removals) {
+			temp[r] = 0;
+		}
+		return temp;
+	}
+	
+	public static short[] generatePuzzleTimed(int clues, long start) {
+		int min = 100;
+		short[] board = generateSudoku();
+		LinkedList<ArrayList<Integer>> stack = new LinkedList<ArrayList<Integer>>();
+		ArrayList<Integer> options = new ArrayList<Integer>();
+		LinkedList<Integer> removals = new LinkedList<Integer>();
+		for (int i = 0; i < board.length; i++) {
+			options.add(i);
+		}
+		stack.add(options);
+		while (board.length - stack.size() >= clues) {
+			options = stack.getLast();
+			if (! options.isEmpty() && board.length - stack.size() - options.size() <= clues) {
+				int selectionIndex = rand.nextInt(options.size());
+				int selection = options.remove(selectionIndex);
+				removals.addLast(selection);
+				if (isUniquelySolvable(board, removals)) {
+					ArrayList<Integer> newOptions = new ArrayList<Integer>();
+					for (int i : options) {
+						newOptions.add(i);
+					}
+					stack.add(newOptions);
+				} else {
+					removals.removeLast();
+				}
+			} else {
+				stack.removeLast();
+				removals.removeLast();
+			}
+			int progress = board.length - stack.size();
+			if (progress < min) {
+				min = progress;
+				System.out.println(min + " " + (System.currentTimeMillis() - start) / 1000.0 + "s" );
+			}
+		}
+		
+		short[] temp = Arrays.copyOf(board, board.length);
+		for (int r : removals) {
+			temp[r] = 0;
+		}
+		return temp;
+	}
+	
+	public static void testPuzzleGen() {
+		short[] sudoku = generatePuzzle(24);
+		printSudoku(sudoku);
+		System.out.println(isUniqelySolvable(sudoku));
+	}
+	
+	public static void testPuzzleGen2() {
+		short[] sudoku = generatePuzzle(20);
+		printSudoku(sudoku);
+		System.out.println(isUniqelySolvable(sudoku));
+	}
+	
+	public static void testPuzzleGen3() {
+		short[] sudoku = generatePuzzleTimed(20, System.currentTimeMillis());
+		printSudoku(sudoku);
+		System.out.println(isUniqelySolvable(sudoku));
 	}
 }
