@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -116,6 +117,21 @@ public class Board extends JPanel {
 					gen[i] = 0;
 		}
 		return gen;
+	}
+	
+	public void checkProgress() {
+		int k = 0;
+		for(int i = 0; i < SIZE; ++i) {
+			for(int j = 0; j < SIZE; ++j) {
+				if(!board[i][j].isLocked()) {
+					if(board[i][j].getValue() == solution[k])
+						board[i][j].setForeground(Color.GREEN);
+					else
+						board[i][j].setForeground(Color.YELLOW);
+				}
+				++k;
+			}
+		}
 	}
 	
 	//return the size of the board

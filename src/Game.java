@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -17,6 +18,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -55,32 +57,35 @@ public class Game extends JFrame {
 		JMenuItem hard = new JMenuItem("Hard");
 		JMenu helpMenu = new JMenu("Help");
 		JMenuItem done = new JMenuItem("Done");
-		done.setBackground(Color.WHITE); //make prettier later
+		JMenuItem check = new JMenuItem("Check Progress");
+		JPanel timerPanel = new JPanel();
+		timerPanel.setLayout(new BorderLayout());
 		gameBoard = new Board(difficulty);
 
 		//adds components to the frame
+		menuBar.add(fileMenu);
+		menuBar.add(settingsMenu);
+		menuBar.add(helpMenu);
+		menuBar.add(done);
 		fileMenu.add(newGame);
 		fileMenu.add(save);
 		fileMenu.add(load);
-		fileMenu.add(done);
-		menuBar.add(fileMenu);
-		menuBar.add(settingsMenu);
-		menuBar.add(done);
 		settingsMenu.add(difficultyMenu);
+		helpMenu.add(check);
 		difficultyMenu.add(easy);
 		difficultyMenu.add(medium);
 		difficultyMenu.add(hard);
-		menuBar.add(helpMenu);
+		
 		load.addActionListener(e -> load(pause));
 		save.addActionListener(e -> save());
 		newGame.addActionListener(e -> newGame());
 		easy.addActionListener(e -> easy());
 		medium.addActionListener(e -> medium());
 		hard.addActionListener(e -> hard());
-		done.addActionListener(e -> done(endCheck(gameBoard.getBoard(),gameBoard.getSolution(),gameBoard.getBoardSize())));
+		done.addActionListener(e -> done(endCheck(gameBoard.getBoard(), gameBoard.getSolution(), gameBoard.getBoardSize())));
+		check.addActionListener(e -> gameBoard.checkProgress());
 		add(menuBar, BorderLayout.NORTH);
 		add(gameBoard, BorderLayout.CENTER);
-		
 		
 		//adds timer to the frame
 		seconds = 0;
@@ -88,13 +93,13 @@ public class Game extends JFrame {
 		field = new JTextField("Time: 0:00");
 		timer = new Timer(1000, e -> updateTime());
 		timer.start();
-		add(field, BorderLayout.SOUTH);
-		
+		timerPanel.add(field, BorderLayout.EAST);
 		//adds pause button
 		pauseButton = new JButton(pause);
-		pauseButton.resize(100, 100);
+		pauseButton.setPreferredSize(new Dimension(30, 30));
 		pauseButton.addActionListener(e -> pause(pause, play));
-		add(pauseButton, BorderLayout.EAST);
+		timerPanel.add(pauseButton, BorderLayout.WEST);
+		add(timerPanel, BorderLayout.SOUTH);
 
 		//scales the frame to fit panel size
 		gameBoard.setPreferredSize(new Dimension(gameBoard.getWidth(), gameBoard.getHeight() + menuBar.getHeight()));
@@ -311,17 +316,15 @@ public class Game extends JFrame {
 	
 	public boolean endCheck(Square[][] temp, short[] solution, int size){ 
 		int k = 0;
-		for(int i = 0; i < size; ++i )
-			for(int j = 0; j < size; ++j){
+		for(int i = 0; i < size; ++i ) {
+			for(int j = 0; j < size; ++j) {
 				if(temp[i][j].getValue() != solution[k])
 					return false;
 				else
 					++k;
 			}
 		}
-				
 		return true;
-
 	}
 	
 	public void done(boolean correct){
