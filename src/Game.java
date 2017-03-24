@@ -52,9 +52,11 @@ public class Game extends JFrame {
 		JMenuItem load = new JMenuItem("Load");
 		JMenu settingsMenu = new JMenu("Settings");
 		JMenu difficultyMenu = new JMenu("Change Difficulty");
+		JMenu boardSize = new JMenu("Change Board Size");
 		JMenuItem easy = new JMenuItem("Easy");
 		JMenuItem medium = new JMenuItem("Medium");
 		JMenuItem hard = new JMenuItem("Hard");
+		JMenuItem four = new JMenuItem("4 x 4");
 		JMenu helpMenu = new JMenu("Help");
 		JMenuItem done = new JMenuItem("Done");
 		JMenuItem check = new JMenuItem("Check Progress");
@@ -71,10 +73,12 @@ public class Game extends JFrame {
 		fileMenu.add(save);
 		fileMenu.add(load);
 		settingsMenu.add(difficultyMenu);
+		settingsMenu.add(boardSize);
 		helpMenu.add(check);
 		difficultyMenu.add(easy);
 		difficultyMenu.add(medium);
 		difficultyMenu.add(hard);
+		boardSize.add(four);
 		
 		load.addActionListener(e -> load(pause));
 		save.addActionListener(e -> save());
