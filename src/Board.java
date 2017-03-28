@@ -69,7 +69,7 @@ public class Board extends JPanel {
 		int k = 0;
 		for(int i = 0; i < SIZE; ++i)
 			for(int j = 0; j < SIZE; ++j) {
-				board[i][j] = new Square(gen[k], board);
+				board[i][j] = new Square(gen[k], board, i, j);
 				add(board[i][j]);
 				++k;
 			}
@@ -123,11 +123,11 @@ public class Board extends JPanel {
 		int k = 0;
 		for(int i = 0; i < SIZE; ++i) {
 			for(int j = 0; j < SIZE; ++j) {
-				if(!board[i][j].isLocked()) {
+				if(!board[i][j].isLocked() && !board[i][j].getForeground().equals(Color.RED)) {
 					if(board[i][j].getValue() == solution[k])
 						board[i][j].setForeground(Color.GREEN);
 					else
-						board[i][j].setForeground(Color.YELLOW);
+						board[i][j].setForeground(Color.ORANGE);
 				}
 				++k;
 			}

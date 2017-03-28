@@ -86,7 +86,7 @@ public class Game extends JFrame {
 		easy.addActionListener(e -> easy());
 		medium.addActionListener(e -> medium());
 		hard.addActionListener(e -> hard());
-		done.addActionListener(e -> done(endCheck(gameBoard.getBoard(), gameBoard.getSolution(), gameBoard.getBoardSize())));
+	//	done.addActionListener(e -> done(endCheck(gameBoard.getBoard(), gameBoard.getSolution(), gameBoard.getBoardSize())));
 		check.addActionListener(e -> gameBoard.checkProgress());
 		add(menuBar, BorderLayout.NORTH);
 		add(gameBoard, BorderLayout.CENTER);
@@ -331,22 +331,22 @@ public class Game extends JFrame {
 		return true;
 	}
 	
-	public void done(boolean correct){
-		if(correct){
-			if(timer.isRunning()) {
-				timer.stop();
-				pauseButton.setIcon(play);
-			}
-			Alert alert = new Alert(true);
-		}
-		else{
-			if(timer.isRunning()) {
-				timer.stop();
-				pauseButton.setIcon(play);
-			}
-			Alert alert = new Alert(false);
-		}
-	}
+//	public void done(boolean correct){
+//		if(correct){
+//			if(timer.isRunning()) {
+//				timer.stop();
+//				pauseButton.setIcon(play);
+//			}
+//			Alert alert = new Alert(true);
+//		}
+//		else{
+//			if(timer.isRunning()) {
+//				timer.stop();
+//				pauseButton.setIcon(play);
+//			}
+//			Alert alert = new Alert(false);
+//		}
+//	}
 	
 	public void updateTime() {
 		seconds += timer.getDelay() / 1000;

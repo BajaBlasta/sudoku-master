@@ -14,8 +14,11 @@ public class Square extends JToggleButton {
 	private boolean isLocked; //variable is set to true if value inside square was generated
 	private short value; //current number inside square
 	private Square[][] board; //reference to all other squares on the board
+	private int r, c;
 
-	public Square(short val, Square[][] brd) {
+	public Square(short val, Square[][] brd, int row, int col) {
+		r = row;
+		c = col;
 		board = brd;
 		value = val;
 		updateSquare(value);
@@ -56,15 +59,22 @@ public class Square extends JToggleButton {
 	//returns true if the square is locked and false otherwise
 	public boolean isLocked() { return isLocked; }
 	
+	public int getRow() { return r; }
+	
+	public int getCol() { return c; }
+	
 	//untoggles every other button on the board
 	private static class SquareListener implements MouseListener {
 		public void mouseReleased(MouseEvent e) {
 			Square square = (Square) e.getSource();
 			Square[][] board = square.getBoard();
 			for(int i = 0; i < board.length; ++i)
-				for(int j = 0; j < board.length; ++j)
+				for(int j = 0; j < board.length; ++j) {
+					if(!(board[i][j].getForeground().equals(Color.RED)))
+						board[i][j].setForeground(Color.BLACK);
 					if(!board[i][j].equals(square))
 						board[i][j].setSelected(false);
+				}
 		}
 		public void mouseClicked(MouseEvent e) {}
 		public void mouseEntered(MouseEvent e) {}
@@ -81,7 +91,7 @@ public class Square extends JToggleButton {
 					square.setText(" ");
 					square.setValue((short)0);
 				}
-				else	
+				else {
 					switch(e.getKeyChar()) {
 						case '1': square.setText('1' + ""); square.setValue(1); break;
 						case '2': square.setText('2' + ""); square.setValue(2); break;
@@ -93,9 +103,36 @@ public class Square extends JToggleButton {
 						case '8': square.setText('8' + ""); square.setValue(8); break;
 						case '9': square.setText('9' + ""); square.setValue(9); break;
 					}
+					checkIntersection(square);
+				}
 			}
 		}
 		public void keyReleased(KeyEvent e) {}
 		public void keyTyped(KeyEvent e) {}
+	}
+	
+	//Colors the intersecting values red
+	private static void checkIntersection(Square square) {
+		square.setForeground(Color.BLACK);
+		Square[][] board = square.getBoard();
+		for(int i = 0; i < board.length; ++i) {
+				if(board[i][square.getCol()].getValue() == square.getValue() //checks for similar value within a column
+						&& !board[i][square.getCol()].equals(square)) {
+					square.setForeground(Color.RED);
+					board[i][square.getCol()].setForeground(Color.RED);
+				}
+				if(board[square.getRow()][i].getValue() == square.getValue() //checks for similar value within a row
+						&& !board[square.getRow()][i].equals(square)) {
+					square.setForeground(Color.RED);
+					board[square.getRow()][i].setForeground(Color.RED);
+				}
+		}
+		
+		//implement grid checking
+		
+		
+		
+		
+		
 	}
 }
