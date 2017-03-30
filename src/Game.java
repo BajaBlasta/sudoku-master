@@ -86,10 +86,10 @@ public class Game extends JFrame {
 		load.addActionListener(e -> load(pause));
 		save.addActionListener(e -> save());
 		newGame.addActionListener(e -> newGame());
-		easy.addActionListener(e -> easy());
-		medium.addActionListener(e -> medium());
-		hard.addActionListener(e -> hard());
-		veryHard.addActionListener(e -> veryHard());
+		easy.addActionListener(e -> changeDifficulty(1));
+		medium.addActionListener(e -> changeDifficulty(2));
+		hard.addActionListener(e -> changeDifficulty(3));
+		veryHard.addActionListener(e -> changeDifficulty(4));
 	//	done.addActionListener(e -> done(endCheck(gameBoard.getBoard(), gameBoard.getSolution(), gameBoard.getBoardSize())));
 		check.addActionListener(e -> gameBoard.checkProgress());
 		add(menuBar, BorderLayout.NORTH);
@@ -283,11 +283,13 @@ public class Game extends JFrame {
 		newGame.dispose();
 	}
 	
-	public void easy() { //creates new game w/ easy difficulty
+	public void changeDifficulty(int diff) {
+		String[] difficultyNames = { "Easy", "Medium", "Hard", "Very Hard"};
 		JFrame newGame = new JFrame();
 		JPanel response = new JPanel();
-		JLabel question = new JLabel("<html>Are you sure you want to change difficulty to easy?<br>Any unsaved progress will be lost.</html>"); //need to center this text
-		newGame.setTitle("New Game");
+		JLabel question = new JLabel("<html>Are you sure you want to change difficulty to " + difficultyNames[diff - 1]
+						 + "?<br>Any unsaved progress will be lost.</html>"); //need to center this text
+			newGame.setTitle("New Game");
 		newGame.setSize(300, 200);
 		newGame.setResizable(false);
 		newGame.setLayout(new BorderLayout());
@@ -296,67 +298,7 @@ public class Game extends JFrame {
 		JButton no = new JButton("No");
 		response.add(yes);
 		response.add(no);
-		yes.addActionListener(e -> yes(newGame, 1));
-		no.addActionListener(e -> no(newGame));
-		newGame.add(response, BorderLayout.SOUTH);
-		newGame.add(question, BorderLayout.CENTER);
-		newGame.setVisible(true);
-	}
-	
-	public void medium() { //creates new game w/ medium difficulty
-		JFrame newGame = new JFrame();
-		JPanel response = new JPanel();
-		JLabel question = new JLabel("<html>Are you sure you want to change difficulty to medium?<br>Any unsaved progress will be lost.</html>"); //need to center this text
-		newGame.setTitle("New Game");
-		newGame.setSize(300, 200);
-		newGame.setResizable(false);
-		newGame.setLayout(new BorderLayout());
-		newGame.setLocationRelativeTo(null);
-		JButton yes = new JButton("Yes");
-		JButton no = new JButton("No");
-		response.add(yes);
-		response.add(no);
-		yes.addActionListener(e -> yes(newGame, 2));
-		no.addActionListener(e -> no(newGame));
-		newGame.add(response, BorderLayout.SOUTH);
-		newGame.add(question, BorderLayout.CENTER);
-		newGame.setVisible(true);
-	}
-	
-	public void hard() { //I can clean up and combine these methods later, creates new game w/ hard difficulty
-		JFrame newGame = new JFrame();
-		JPanel response = new JPanel();
-		JLabel question = new JLabel("<html>Are you sure you want to change difficulty to hard?<br>Any unsaved progress will be lost.</html>"); //need to center this text
-		newGame.setTitle("New Game");
-		newGame.setSize(300, 200);
-		newGame.setResizable(false);
-		newGame.setLayout(new BorderLayout());
-		newGame.setLocationRelativeTo(null);
-		JButton yes = new JButton("Yes");
-		JButton no = new JButton("No");
-		response.add(yes);
-		response.add(no);
-		yes.addActionListener(e -> yes(newGame, 3));
-		no.addActionListener(e -> no(newGame));
-		newGame.add(response, BorderLayout.SOUTH);
-		newGame.add(question, BorderLayout.CENTER);
-		newGame.setVisible(true);
-	}
-	
-	public void veryHard() { //I can clean up and combine these methods later, creates new game w/ hard difficulty
-		JFrame newGame = new JFrame();
-		JPanel response = new JPanel();
-		JLabel question = new JLabel("<html>Are you sure you want to change difficulty to hard?<br>Any unsaved progress will be lost.</html>"); //need to center this text
-		newGame.setTitle("New Game");
-		newGame.setSize(300, 200);
-		newGame.setResizable(false);
-		newGame.setLayout(new BorderLayout());
-		newGame.setLocationRelativeTo(null);
-		JButton yes = new JButton("Yes");
-		JButton no = new JButton("No");
-		response.add(yes);
-		response.add(no);
-		yes.addActionListener(e -> yes(newGame, 4));
+		yes.addActionListener(e -> yes(newGame, diff));
 		no.addActionListener(e -> no(newGame));
 		newGame.add(response, BorderLayout.SOUTH);
 		newGame.add(question, BorderLayout.CENTER);
