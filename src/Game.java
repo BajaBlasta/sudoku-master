@@ -27,12 +27,13 @@ public class Game extends JFrame {
 
 	private Board gameBoard;
 	private Timer timer;
+	private boolean countdown;
 	private JTextField field;
 	private JButton pauseButton;
 	private int seconds;
 	private int minutes;
 	
-	public Game(int difficulty) {
+	public Game(int difficulty, boolean normalTimer) {
 		//sets up the JFrame
 		setTitle("Sudoku");
 		setResizable(false);
@@ -94,10 +95,16 @@ public class Game extends JFrame {
 		//adds timer to the frame
 		seconds = 0;
 		minutes = 0;
+		countdown = !normalTimer;
+		
+		if(countdown == true && minutes == 0)
+			minutes = 30;
+		
 		field = new JTextField("Time: 0:00");
 		timer = new Timer(1000, e -> updateTime());
 		timer.start();
 		timerPanel.add(field, BorderLayout.EAST);
+		
 		//adds pause button
 		pauseButton = new JButton(pause);
 		pauseButton.setPreferredSize(new Dimension(30, 30));
@@ -118,6 +125,7 @@ public class Game extends JFrame {
       board size, represented by an integer
       time (minutes), represented by an integer
       time (seconds), represented by an integer
+      whether or not the timer is a countdown (true if it counts down, false if it counts up), represented by a boolean
       list of every number on the board, each represented by an integer and separated by a whitespace delimiter
       
       Example file:
@@ -126,6 +134,7 @@ public class Game extends JFrame {
       9
       0
       27
+      false
       1 2 3 4 5 6 7 8 0
       1 2 3 4 5 6 7 0 9
       1 2 3 4 5 6 0 8 9
@@ -179,6 +188,7 @@ public class Game extends JFrame {
 			int size = reader.nextInt();
 			minutes = reader.nextInt();
 			seconds = reader.nextInt();
+			countdown = reader.nextBoolean();
 			for(int i = 0; i < size; ++i)
 				for(int j = 0; j < size; ++j)
 					gameBoard.setSquare(i, j, reader.nextShort());
@@ -193,6 +203,13 @@ public class Game extends JFrame {
 	public void save() {
 		String fileName = System.getProperty("user.dir") + "/src/resources/saves/" + 
 				  JOptionPane.showInputDialog("Enter a name for the save file (do not include file extension):") + ".txt";
+		
+		//If the user didn't enter a name for the file (or if they name the file "null", gives an error message
+		if(fileName.equals(System.getProperty("user.dir") + "/src/resources/saves/null.txt")) {
+			JOptionPane.showMessageDialog(null, "Invalid file");
+			return;
+		}
+		
 		File file = new File(fileName);
 		FileWriter writer;
 		int size = gameBoard.getBoardSize();
@@ -212,6 +229,11 @@ public class Game extends JFrame {
 			writer.write(size + System.getProperty("line.separator"));
 			writer.write(minutes + System.getProperty("line.separator"));
 			writer.write(seconds + System.getProperty("line.separator"));
+			
+			if(countdown == true)
+				writer.write("true" + System.getProperty("line.separator"));
+			else if(countdown == false)
+				writer.write("false" + System.getProperty("line.separator"));
 			
 			for(int i = 0; i < size; ++i){
 				for(int j = 0; j < size; ++j)
@@ -349,12 +371,32 @@ public class Game extends JFrame {
 //	}
 	
 	public void updateTime() {
+		if(countdown == false)
+			incrementTime();
+		else
+			countdown();
+	}
+	
+	public void incrementTime() {
 		seconds += timer.getDelay() / 1000;
 		
 		if(seconds >= 60) {
 			seconds = 0;
 			minutes++;
 		}
+		if(seconds <= 9)
+			field.setText("Time: " + minutes + ":0" + seconds);
+		else
+			field.setText("Time: " + minutes + ":" + seconds);
+	}
+	
+	public void countdown() {
+		if(seconds <= 0) {
+			seconds = 60;
+			minutes--;
+		}
+		seconds -= timer.getDelay() / 1000;
+		
 		if(seconds <= 9)
 			field.setText("Time: " + minutes + ":0" + seconds);
 		else
