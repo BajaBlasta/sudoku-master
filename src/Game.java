@@ -270,10 +270,10 @@ public class Game extends JFrame {
 		newGame.setVisible(true);
 	}
 	
-	public void yes(JFrame newGame, int difficulty, !countdown) { //if the user wants a new game then clear current gameboard and dialog box
+	public void yes(JFrame newGame, int difficulty) { //if the user wants a new game then clear current gameboard and dialog box
 		newGame.dispose();
 		dispose();
-		Game game = new Game(difficulty);
+		Game game = new Game(difficulty, !countdown);
 	}
 		
 	public void no(JFrame newGame) { //if the user doesn't want a new game just close the dialog box
