@@ -34,9 +34,10 @@ public class Board extends JPanel {
 		short[] generated = Generator.generateSudoku();
 		solution = generated.clone();
 		
-		Generator.printSudoku(solution);
+		generated = removeNumbers(generated, diff);
+		System.out.println(Generator.isUniqelySolvable(generated) ? 
+							"uniquely solvable" : "not uniquely solvable");
 		
-		removeNumbers(generated, diff);
 		createBoard(generated);
 	}
 	
@@ -99,7 +100,8 @@ public class Board extends JPanel {
 		}
 	}
 	
-	//removes numbers
+	// removes numbers
+	// medium and hard are now guaranteed to produce uniquely solvable puzzles
 	private static short[] removeNumbers(short[] gen, int diff) {
 		if (diff == 1) {
 			for(int i = 0; i < gen.length; ++i)
@@ -107,11 +109,14 @@ public class Board extends JPanel {
 					gen[i] = 0;
 		}
 		else if(diff == 2){
-			for(int i = 0; i < gen.length; ++i)
-				if(Math.random() < .6)
-					gen[i] = 0;
+//			for(int i = 0; i < gen.length; ++i)
+//				if(Math.random() < .6)
+//					gen[i] = 0;
+			return Generator.generatePuzzle(gen, 32);
+		} else if(diff == 3) {
+			return Generator.generatePuzzle(gen, 25);
 		}
-		else if(diff == 3){
+		else if(diff == 4){
 			for(int i = 0; i < gen.length; ++i)
 				if(Math.random() < .79)
 					gen[i] = 0;

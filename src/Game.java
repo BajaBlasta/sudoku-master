@@ -57,6 +57,7 @@ public class Game extends JFrame {
 		JMenuItem easy = new JMenuItem("Easy");
 		JMenuItem medium = new JMenuItem("Medium");
 		JMenuItem hard = new JMenuItem("Hard");
+		JMenuItem veryHard = new JMenuItem("Very Hard");
 		JMenuItem four = new JMenuItem("4 x 4");
 		JMenu helpMenu = new JMenu("Help");
 		JMenuItem done = new JMenuItem("Done");
@@ -79,6 +80,7 @@ public class Game extends JFrame {
 		difficultyMenu.add(easy);
 		difficultyMenu.add(medium);
 		difficultyMenu.add(hard);
+		difficultyMenu.add(veryHard);
 		boardSize.add(four);
 		
 		load.addActionListener(e -> load(pause));
@@ -87,6 +89,7 @@ public class Game extends JFrame {
 		easy.addActionListener(e -> easy());
 		medium.addActionListener(e -> medium());
 		hard.addActionListener(e -> hard());
+		veryHard.addActionListener(e -> veryHard());
 	//	done.addActionListener(e -> done(endCheck(gameBoard.getBoard(), gameBoard.getSolution(), gameBoard.getBoardSize())));
 		check.addActionListener(e -> gameBoard.checkProgress());
 		add(menuBar, BorderLayout.NORTH);
@@ -334,6 +337,26 @@ public class Game extends JFrame {
 		response.add(yes);
 		response.add(no);
 		yes.addActionListener(e -> yes(newGame, 3));
+		no.addActionListener(e -> no(newGame));
+		newGame.add(response, BorderLayout.SOUTH);
+		newGame.add(question, BorderLayout.CENTER);
+		newGame.setVisible(true);
+	}
+	
+	public void veryHard() { //I can clean up and combine these methods later, creates new game w/ hard difficulty
+		JFrame newGame = new JFrame();
+		JPanel response = new JPanel();
+		JLabel question = new JLabel("<html>Are you sure you want to change difficulty to hard?<br>Any unsaved progress will be lost.</html>"); //need to center this text
+		newGame.setTitle("New Game");
+		newGame.setSize(300, 200);
+		newGame.setResizable(false);
+		newGame.setLayout(new BorderLayout());
+		newGame.setLocationRelativeTo(null);
+		JButton yes = new JButton("Yes");
+		JButton no = new JButton("No");
+		response.add(yes);
+		response.add(no);
+		yes.addActionListener(e -> yes(newGame, 4));
 		no.addActionListener(e -> no(newGame));
 		newGame.add(response, BorderLayout.SOUTH);
 		newGame.add(question, BorderLayout.CENTER);

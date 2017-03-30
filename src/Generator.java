@@ -312,8 +312,7 @@ public class Generator {
 		printSudoku(solution);
 	}
 	
-	public static short[] generatePuzzle(int clues) {
-		short[] board = generateSudoku();
+	public static short[] generatePuzzle(short[] board, int clues) {
 		LinkedList<ArrayList<Integer>> stack = new LinkedList<ArrayList<Integer>>();
 		ArrayList<Integer> options = new ArrayList<Integer>();
 		LinkedList<Integer> removals = new LinkedList<Integer>();
@@ -349,9 +348,8 @@ public class Generator {
 		return temp;
 	}
 	
-	public static short[] generatePuzzleTimed(int clues, long start) {
+	public static short[] generatePuzzleTimed(short[] board, int clues, long start) {
 		int min = 100;
-		short[] board = generateSudoku();
 		LinkedList<ArrayList<Integer>> stack = new LinkedList<ArrayList<Integer>>();
 		ArrayList<Integer> options = new ArrayList<Integer>();
 		LinkedList<Integer> removals = new LinkedList<Integer>();
@@ -393,19 +391,22 @@ public class Generator {
 	}
 	
 	public static void testPuzzleGen() {
-		short[] sudoku = generatePuzzle(24);
+		short[] solution = generateSudoku();
+		short[] sudoku = generatePuzzle(solution, 24);
 		printSudoku(sudoku);
 		System.out.println(isUniqelySolvable(sudoku));
 	}
 	
 	public static void testPuzzleGen2() {
-		short[] sudoku = generatePuzzle(20);
+		short[] solution = generateSudoku();
+		short[] sudoku = generatePuzzle(solution, 20);
 		printSudoku(sudoku);
 		System.out.println(isUniqelySolvable(sudoku));
 	}
 	
 	public static void testPuzzleGen3() {
-		short[] sudoku = generatePuzzleTimed(20, System.currentTimeMillis());
+		short[] solution = generateSudoku();
+		short[] sudoku = generatePuzzleTimed(solution, 20, System.currentTimeMillis());
 		printSudoku(sudoku);
 		System.out.println(isUniqelySolvable(sudoku));
 	}
