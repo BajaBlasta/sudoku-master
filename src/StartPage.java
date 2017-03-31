@@ -61,7 +61,7 @@ public class StartPage extends JFrame {
 	
 
 	private void newGame(JFrame newGame, int difficulty) {
-		Game game = new Game(difficulty);
+		Game game = new Game(difficulty, true); //temporary fix
 		newGame.dispose();
 		dispose();
 	}
