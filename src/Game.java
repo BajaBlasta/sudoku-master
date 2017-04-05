@@ -38,7 +38,6 @@ public class Game extends JFrame {
 		setTitle("Sudoku");
 		setResizable(false);
 		setLayout(new BorderLayout());
-		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//adds button images
@@ -118,6 +117,7 @@ public class Game extends JFrame {
 		//scales the frame to fit panel size
 		gameBoard.setPreferredSize(new Dimension(gameBoard.getWidth(), gameBoard.getHeight() + menuBar.getHeight()));
 		pack();
+		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 
