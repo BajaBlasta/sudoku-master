@@ -26,6 +26,7 @@ public class Square extends JToggleButton {
 		setBackground(Color.WHITE);
 		setFocusPainted(false);
 		setBorderPainted(false);
+		setContentAreaFilled(false);
 		addMouseListener(new ClickListener());
 		addKeyListener(new NumberListener());
 	}
@@ -39,11 +40,9 @@ public class Square extends JToggleButton {
 		if(isLocked) {
 			setFont(new Font(null, 1, 25));
 			setText(val + "");
-			setContentAreaFilled(false);
 		} else {
 			setFont(new Font(null, 0, 25));
 			setText(" ");
-			setContentAreaFilled(true);
 		}
 	}
 
