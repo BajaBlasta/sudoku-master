@@ -199,6 +199,7 @@ public class Game extends JFrame {
 		
 		timer.start();
 		pauseButton.setIcon(pause);
+		setVisible(true);
 	}
 	
 	//Creates a new text file with a user specified name in the saves directory,
