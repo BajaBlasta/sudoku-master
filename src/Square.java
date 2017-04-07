@@ -40,6 +40,7 @@ public class Square extends JToggleButton {
 		if(isLocked) {
 			setFont(new Font(null, 1, 25));
 			setText(val + "");
+			setValue(val);
 		} else {
 			setFont(new Font(null, 0, 25));
 			setText(" ");
