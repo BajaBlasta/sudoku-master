@@ -89,7 +89,7 @@ public class Game extends JFrame {
 		medium.addActionListener(e -> changeDifficulty(2));
 		hard.addActionListener(e -> changeDifficulty(3));
 		veryHard.addActionListener(e -> changeDifficulty(4));
-	//	done.addActionListener(e -> done(endCheck(gameBoard.getBoard(), gameBoard.getSolution(), gameBoard.getBoardSize())));
+		done.addActionListener(e -> done(endCheck(gameBoard.getBoard(), gameBoard.getSolution(), gameBoard.getBoardSize()),play));
 		check.addActionListener(e -> gameBoard.checkProgress());
 		add(menuBar, BorderLayout.NORTH);
 		add(gameBoard, BorderLayout.CENTER);
@@ -319,22 +319,22 @@ public class Game extends JFrame {
 		return true;
 	}
 	
-//	public void done(boolean correct){
-//		if(correct){
-//			if(timer.isRunning()) {
-//				timer.stop();
-//				pauseButton.setIcon(play);
-//			}
-//			Alert alert = new Alert(true);
-//		}
-//		else{
-//			if(timer.isRunning()) {
-//				timer.stop();
-//				pauseButton.setIcon(play);
-//			}
-//			Alert alert = new Alert(false);
-//		}
-//	}
+	public void done(boolean correct, ImageIcon play){
+		if(correct){
+			if(timer.isRunning()) {
+				timer.stop();
+				pauseButton.setIcon(play);
+			}
+			Alert alert = new Alert(true);
+		}
+		else{
+			if(timer.isRunning()) {
+				timer.stop();
+				pauseButton.setIcon(play);
+			}
+			Alert alert = new Alert(false);
+		}
+	}
 	
 	public void updateTime() {
 		if(countdown == false)
