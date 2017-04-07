@@ -1,17 +1,22 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
-public class StartPage extends JFrame {
-	private Timer timer;
-	private int minutes;
-	private int seconds;
-	private Board gameBoard;
+public class StartPage extends JFrame { 
 
-	public StartPage(){
+	
+	public StartPage() throws IOException{
+		BufferedImage image = ImageIO.read(new File("src/resources/startPage.png")); //background image of the board
+		JLabel background = new JLabel(new ImageIcon(image));
 		setTitle("Sudoku Master");
-		setSize(567,567); //create another background image for this JFrame
+		
+		setSize(568,568);
+		background.setSize(image.getWidth(),image.getHeight()); 
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setLayout(null);
@@ -24,15 +29,17 @@ public class StartPage extends JFrame {
 		loadGame.setBounds(189, 360, 189, 50);
 		loadGame.setText("Load Game");
 		loadGame.addActionListener(e -> load());
-
-
+		
+		
+		
 		add(newGame);
 		add(loadGame);
-
-
+		add(background);
+		//background.setVisible(true);
 		setVisible(true);
 
 	}
+	
 
 	private void gameOption() {
 		JFrame newGame = new JFrame();
@@ -72,7 +79,7 @@ public class StartPage extends JFrame {
 		oldGame.load(pause);
 		//oldGame.setVisible(true);
 
-		dispose();
+		//dispose();
 	}
 
 
