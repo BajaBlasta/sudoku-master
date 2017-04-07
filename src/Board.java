@@ -22,11 +22,7 @@ public class Board extends JPanel {
 
 	public Board(int diff) {
 		//Load in the background image
-		try {                
-			image = ImageIO.read(new File("src/resources/board.png"));
-		} catch (IOException ex) {
-			System.out.println("Image not found!");
-		}
+		setImage("src/resources/default.png");
 		
 		setLayout(null);
 		setSize(image.getWidth(), image.getHeight());
@@ -39,6 +35,14 @@ public class Board extends JPanel {
 							"uniquely solvable" : "not uniquely solvable");
 		
 		createBoard(generated);
+	}
+	
+	public static void setImage(String fileName) {
+		try {                
+			image = ImageIO.read(new File(fileName));
+		} catch (IOException ex) {
+			System.out.println("Image not found!");
+		}
 	}
 	
 	//loads a new value into a square
