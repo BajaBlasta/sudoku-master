@@ -47,20 +47,38 @@ public class Game extends JFrame {
 		//creates all components
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
+		
 		JMenuItem newGame = new JMenuItem("New Game");
 		JMenuItem save = new JMenuItem("Save");
 		JMenuItem load = new JMenuItem("Load");
+		
 		JMenu settingsMenu = new JMenu("Settings");
 		JMenu difficultyMenu = new JMenu("Change Difficulty");
+		JMenu background = new JMenu("Change Background");
 		JMenu boardSize = new JMenu("Change Board Size");
+		
 		JMenuItem easy = new JMenuItem("Easy");
 		JMenuItem medium = new JMenuItem("Medium");
 		JMenuItem hard = new JMenuItem("Hard");
 		JMenuItem veryHard = new JMenuItem("Very Hard");
+		
+		JMenuItem defaultBoard = new JMenuItem("Default");
+		JMenuItem red = new JMenuItem("Red");
+		JMenuItem orange = new JMenuItem("Orange");
+		JMenuItem yellow = new JMenuItem("Yellow");
+		JMenuItem green = new JMenuItem("Green");
+		JMenuItem blue = new JMenuItem("Blue");
+		JMenuItem purple = new JMenuItem("Purple");
+		JMenuItem pink = new JMenuItem("Pink");
+		JMenuItem disco = new JMenuItem("Disco");
+		JMenuItem blueJay = new JMenuItem("Blue Jay");
+		
 		JMenuItem four = new JMenuItem("4 x 4");
+		
 		JMenu helpMenu = new JMenu("Help");
 		JMenuItem done = new JMenuItem("Done");
 		JMenuItem check = new JMenuItem("Check Progress");
+		
 		JPanel timerPanel = new JPanel();
 		timerPanel.setLayout(new BorderLayout());
 		gameBoard = new Board(difficulty);
@@ -70,25 +88,55 @@ public class Game extends JFrame {
 		menuBar.add(settingsMenu);
 		menuBar.add(helpMenu);
 		//menuBar.add(done);
+		
 		fileMenu.add(newGame);
 		fileMenu.add(save);
 		fileMenu.add(load);
+		
 		settingsMenu.add(difficultyMenu);
+		settingsMenu.add(background);
 		settingsMenu.add(boardSize);
+		
 		helpMenu.add(check);
+		
 		difficultyMenu.add(easy);
 		difficultyMenu.add(medium);
 		difficultyMenu.add(hard);
 		difficultyMenu.add(veryHard);
+		
+		background.add(defaultBoard);
+		background.add(red);
+		background.add(orange);
+		background.add(yellow);
+		background.add(green);
+		background.add(blue);
+		background.add(purple);
+		background.add(pink);
+		background.add(disco);
+		background.add(blueJay);
+		
 		boardSize.add(four);
 		
 		load.addActionListener(e -> load(pause));
 		save.addActionListener(e -> save());
 		newGame.addActionListener(e -> newGame());
+		
 		easy.addActionListener(e -> changeDifficulty(1));
 		medium.addActionListener(e -> changeDifficulty(2));
 		hard.addActionListener(e -> changeDifficulty(3));
 		veryHard.addActionListener(e -> changeDifficulty(4));
+		
+		defaultBoard.addActionListener(e -> changeBackground(difficulty, "src/resources/default.png"));
+		red.addActionListener(e -> changeBackground(difficulty, "src/resources/red.png"));
+		orange.addActionListener(e -> changeBackground(difficulty, "src/resources/orange.png"));
+		yellow.addActionListener(e -> changeBackground(difficulty, "src/resources/yellow.png"));
+		green.addActionListener(e -> changeBackground(difficulty, "src/resources/green.png"));
+		blue.addActionListener(e -> changeBackground(difficulty, "src/resources/blue.png"));
+		purple.addActionListener(e -> changeBackground(difficulty, "src/resources/purple.png"));
+		pink.addActionListener(e -> changeBackground(difficulty, "src/resources/pink.png"));
+		disco.addActionListener(e -> changeBackground(difficulty, "src/resources/disco.png"));
+		blueJay.addActionListener(e -> changeBackground(difficulty, "src/resources/blueJay.png"));
+		
 		done.addActionListener(e -> done(endCheck(gameBoard.getBoard(), gameBoard.getSolution(), gameBoard.getBoardSize()),play));
 		check.addActionListener(e -> gameBoard.checkProgress());
 		add(menuBar, BorderLayout.NORTH);
@@ -270,17 +318,18 @@ public class Game extends JFrame {
 		JButton no = new JButton("No");
 		response.add(yes);
 		response.add(no);
-		yes.addActionListener(e -> yes(newGame, 1));
+		yes.addActionListener(e -> yes(newGame, 1, "src/resources/default.png"));
 		no.addActionListener(e -> no(newGame));
 		newGame.add(response, BorderLayout.SOUTH);
 		newGame.add(question, BorderLayout.CENTER);
 		newGame.setVisible(true);
 	}
 	
-	public void yes(JFrame newGame, int difficulty) { //if the user wants a new game then clear current gameboard and dialog box
+	public void yes(JFrame newGame, int difficulty, String fileName) { //if the user wants a new game then clear current gameboard and dialog box
 		newGame.dispose();
 		dispose();
 		Game game = new Game(difficulty, !countdown);
+		game.gameBoard.setImage(fileName);
 	}
 		
 	public void no(JFrame newGame) { //if the user doesn't want a new game just close the dialog box
@@ -302,7 +351,26 @@ public class Game extends JFrame {
 		JButton no = new JButton("No");
 		response.add(yes);
 		response.add(no);
-		yes.addActionListener(e -> yes(newGame, diff));
+		yes.addActionListener(e -> yes(newGame, diff, "src/resources/default.png"));
+		no.addActionListener(e -> no(newGame));
+		newGame.add(response, BorderLayout.SOUTH);
+		newGame.add(question, BorderLayout.CENTER);
+		newGame.setVisible(true);
+	}
+	
+	public void changeBackground(int diff, String fileName) {
+		JFrame newGame = new JFrame();
+		JPanel response = new JPanel();
+		JLabel question = new JLabel("<html>Are you sure you want to choose a new background?<br>Any unsaved progress will be lost.</html>");
+		newGame.setSize(300, 200);
+		newGame.setResizable(false);
+		newGame.setLayout(new BorderLayout());
+		newGame.setLocationRelativeTo(null);
+		JButton yes = new JButton("Yes");
+		JButton no = new JButton("No");
+		response.add(yes);
+		response.add(no);
+		yes.addActionListener(e -> yes(newGame, diff, fileName));
 		no.addActionListener(e -> no(newGame));
 		newGame.add(response, BorderLayout.SOUTH);
 		newGame.add(question, BorderLayout.CENTER);
