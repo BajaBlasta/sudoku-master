@@ -18,7 +18,7 @@ public class Board extends JPanel {
 	private static final int SIZE = 9;
 	private Square[][] board = new Square[SIZE][SIZE]; //grid of squares that for the board
 	protected short[] solution; //holds original solution to the puzzle
-	private BufferedImage image; //background image of the board
+	private static BufferedImage image; //background image of the board
 
 	public Board(int diff) {
 		//Load in the background image
