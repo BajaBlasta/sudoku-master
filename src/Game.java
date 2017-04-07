@@ -69,7 +69,7 @@ public class Game extends JFrame {
 		menuBar.add(fileMenu);
 		menuBar.add(settingsMenu);
 		menuBar.add(helpMenu);
-		menuBar.add(done);
+		//menuBar.add(done);
 		fileMenu.add(newGame);
 		fileMenu.add(save);
 		fileMenu.add(load);
@@ -103,6 +103,9 @@ public class Game extends JFrame {
 			minutes = 30;
 		
 		field = new JTextField("Time: 0:00");
+		field.setEditable(false);
+		field.setBorder(null);
+		field.setPreferredSize(new Dimension(100, 30));
 		timer = new Timer(1000, e -> updateTime());
 		timer.start();
 		timerPanel.add(field, BorderLayout.EAST);

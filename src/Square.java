@@ -140,7 +140,35 @@ public class Square extends JToggleButton {
 		}
 		
 		//TODO implement grid checking
+		//checks for intersecting values within subgrids
+		int r = 0, c = 0;
+		if(row < 3 && col < 3) {
+			r = 0; c = 0;
+		} else if(row < 3 && col < 6) {
+			r = 0; c = 3;
+		} else if(row < 3 && col < 9) {
+			r = 0; c = 6;
+		} else if(row < 6 && col < 3) {
+			r = 3; c = 0;
+		} else if(row < 6 && col < 6) {
+			r = 3; c = 3;
+		} else if(row < 6 && col < 9) {
+			r = 3; c = 6;
+		} else if(row < 9 && col < 3) {
+			r = 6; c = 0;
+		} else if(row < 9 && col < 6) {
+			r = 6; c = 3;
+		} else if(row < 9 && col < 9) {
+			r = 6; c = 6;
+		}
 		
+		for(int i = 0; i < 3; ++i)
+			for(int j = 0; j < 3; ++j) {
+				if(square.valueEquals(board[r + i][c + j])) {
+					square.setForeground(Color.RED);
+					board[r + i][c + j].setForeground(Color.RED);
+				}
+			}
 		
 	}
 	
