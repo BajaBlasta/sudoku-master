@@ -24,13 +24,15 @@ public class StartPage extends JFrame {
 		JButton newGame = new JButton();
 		newGame.setBounds(189, 180, 189, 50);
 		newGame.setText("New Game");
+		newGame.setFocusPainted(false);
+		newGame.setBackground(Color.WHITE);
 		newGame.addActionListener(e -> gameOption());
 		JButton loadGame = new JButton();
 		loadGame.setBounds(189, 360, 189, 50);
 		loadGame.setText("Load Game");
+		loadGame.setFocusPainted(false);
+		loadGame.setBackground(Color.WHITE);
 		loadGame.addActionListener(e -> load());
-		
-		
 		
 		add(newGame);
 		add(loadGame);
