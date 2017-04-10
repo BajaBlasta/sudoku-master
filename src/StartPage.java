@@ -54,6 +54,13 @@ public class StartPage extends JFrame {
 		JButton easy = new JButton("Easy");
 		JButton medium = new JButton("Medium");
 		JButton hard = new JButton("Hard");
+		easy.setFocusPainted(false);
+		easy.setBackground(Color.WHITE);
+		medium.setFocusPainted(false);
+		medium.setBackground(Color.WHITE);
+		hard.setFocusPainted(false);
+		hard.setBackground(Color.WHITE);
+		
 		easy.addActionListener(e -> newGame(newGame,1));
 		medium.addActionListener(e -> newGame(newGame,2));
 		hard.addActionListener(e -> newGame(newGame,3));
