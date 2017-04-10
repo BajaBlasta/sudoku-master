@@ -41,7 +41,6 @@ public class StartPage extends JFrame {
 		setVisible(true);
 
 	}
-	
 
 	private void gameOption() {
 		JFrame newGame = new JFrame();
@@ -50,7 +49,7 @@ public class StartPage extends JFrame {
 		newGame.setSize(300, 200);
 		newGame.setResizable(false);
 		newGame.setLayout(new GridLayout(0,1));
-		newGame.setLocationRelativeTo(null);
+		newGame.setLocationRelativeTo(this);
 		JButton easy = new JButton("Easy");
 		JButton medium = new JButton("Medium");
 		JButton hard = new JButton("Hard");
