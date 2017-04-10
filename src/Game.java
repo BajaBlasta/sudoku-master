@@ -246,6 +246,7 @@ public class Game extends JFrame {
 			for(int i = 0; i < size; ++i)
 				for(int j = 0; j < size; ++j)
 					gameBoard.setSquare(i, j, reader.nextShort());
+			Square.checkIntersection(gameBoard.getBoard());
 		}
 		
 		timer.start();

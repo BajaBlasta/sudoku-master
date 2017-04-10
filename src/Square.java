@@ -44,6 +44,7 @@ public class Square extends JToggleButton {
 		} else {
 			setFont(new Font(null, 0, 25));
 			setText(" ");
+			setValue(0);
 		}
 	}
 
@@ -109,7 +110,7 @@ public class Square extends JToggleButton {
 	}
 
 	//colors the intersecting values red
-	private static void checkIntersection(Square[][] board) {
+	public static void checkIntersection(Square[][] board) {
 		//set all squares black on the board
 		for(int i = 0; i < board.length; ++i)
 			for(int j = 0; j < board.length; ++j)
@@ -139,7 +140,6 @@ public class Square extends JToggleButton {
 			}
 		}
 		
-		//TODO implement grid checking
 		//checks for intersecting values within subgrids
 		int r = 0, c = 0;
 		if(row < 3 && col < 3) {
@@ -169,7 +169,6 @@ public class Square extends JToggleButton {
 					board[r + i][c + j].setForeground(Color.RED);
 				}
 			}
-		
 	}
 	
 	//returns true if squares have the same value but are different squares
