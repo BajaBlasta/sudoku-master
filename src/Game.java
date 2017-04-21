@@ -246,6 +246,14 @@ public class Game extends JFrame {
 			for(int i = 0; i < size; ++i)
 				for(int j = 0; j < size; ++j)
 					gameBoard.setSquare(i, j, reader.nextShort());
+			
+			for(int i = 0; i < size; ++i)
+				for(int j = 0; j < size; ++j)
+					if(reader.nextInt() == 1)
+						gameBoard.getSquare(i, j).setLocked(true);
+					else
+						gameBoard.getSquare(i, j).setLocked(false);
+			
 			Square.checkIntersection(gameBoard.getBoard());
 		}
 		
@@ -292,9 +300,19 @@ public class Game extends JFrame {
 				writer.write("false" + System.getProperty("line.separator"));
 			
 			for(int i = 0; i < size; ++i){
-				for(int j = 0; j < size; ++j)
-				{
+				for(int j = 0; j < size; ++j) {
 					writer.write((int)gameBoard.getSquare(i, j).getValue() + " ");
+				}
+				writer.write(System.getProperty("line.separator"));	
+			}
+			writer.write(System.getProperty("line.separator"));	
+			
+			for(int i = 0; i < size; ++i){
+				for(int j = 0; j < size; ++j) {
+					if(gameBoard.getSquare(i, j).isLocked())
+						writer.write(1 + " ");
+					else
+						writer.write(0 + " ");
 				}
 				writer.write(System.getProperty("line.separator"));
 			}

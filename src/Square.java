@@ -59,6 +59,8 @@ public class Square extends JToggleButton {
 
 	//returns true if the square is locked and false otherwise
 	public boolean isLocked() { return isLocked; }
+	
+	public void setLocked(Boolean b) { isLocked = b; } 
 
 	public int getRow() { return r; }
 
