@@ -1,18 +1,28 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 
-public class StartPage extends JFrame {
+public class StartPage extends JFrame { 
+	
+	private int difficulty = 0;
+	private BufferedImage background;
+	boolean normalTimer = true;
+	private Timer timer;
+	
 
-	public StartPage(){
+	
+	public StartPage() throws IOException{
+		BufferedImage image = ImageIO.read(new File("src/resources/startPage.png")); //background image of the board
+		JLabel background = new JLabel(new ImageIcon(image));
 		setTitle("Sudoku Master");
-		setSize(567,567); //create another background image for this JFrame
+		
+		setSize(568,568);
+		background.setSize(image.getWidth(),image.getHeight()); 
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setLayout(null);
@@ -20,104 +30,158 @@ public class StartPage extends JFrame {
 		JButton newGame = new JButton();
 		newGame.setBounds(189, 180, 189, 50);
 		newGame.setText("New Game");
+		newGame.setFocusPainted(false);
+		newGame.setBackground(Color.WHITE);
 		newGame.addActionListener(e -> gameOption());
 		JButton loadGame = new JButton();
 		loadGame.setBounds(189, 360, 189, 50);
 		loadGame.setText("Load Game");
+		loadGame.setFocusPainted(false);
+		loadGame.setBackground(Color.WHITE);
 		loadGame.addActionListener(e -> load());
-
-
+		
 		add(newGame);
 		add(loadGame);
-
-
+		add(background);
+		//background.setVisible(true);
 		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 	}
 
 	private void gameOption() {
 		JFrame newGame = new JFrame();
-		JLabel question = new JLabel("What difficulty would you like your new Sudoku game to be?");
-		newGame.setTitle("New Game");
-		newGame.setSize(300, 200);
+		
+		newGame.setTitle("Select New Game Options");
+		newGame.setSize(500, 300);
 		newGame.setResizable(false);
+		JPanel difficultyPanel = new JPanel();
+		JPanel timerPanel = new JPanel();
+		JPanel backgroundPanel = new JPanel();
+		JPanel playPanel = new JPanel();
+		
 		newGame.setLayout(new GridLayout(0,1));
-		newGame.setLocationRelativeTo(null);
-		JButton easy = new JButton("Easy");
-		JButton medium = new JButton("Medium");
-		JButton hard = new JButton("Hard");
-		easy.addActionListener(e -> newGame(newGame,1));
-		medium.addActionListener(e -> newGame(newGame,2));
-		hard.addActionListener(e -> newGame(newGame,3));
-		newGame.add(easy);
-		newGame.add(medium);
-		newGame.add(hard);
+		newGame.setLocationRelativeTo(this);
+		JToggleButton easy = new JToggleButton("Easy");
+		JToggleButton medium = new JToggleButton("Medium");
+		JToggleButton hard = new JToggleButton("Hard");
+		JToggleButton veryHard = new JToggleButton("Very Hard");
+		
+		easy.setFocusPainted(false);
+		easy.setBackground(Color.WHITE);
+		medium.setFocusPainted(false);
+		medium.setBackground(Color.WHITE);
+		hard.setFocusPainted(false);
+		hard.setBackground(Color.WHITE);
+		veryHard.setFocusPainted(false);
+		veryHard.setBackground(Color.WHITE);
+		
+		ButtonGroup difficultyGroup = new ButtonGroup();
+		difficultyGroup.add(easy);
+		difficultyGroup.add(medium);
+		difficultyGroup.add(hard);
+		difficultyGroup.add(veryHard);
+		
+		JRadioButton normalTimer = new JRadioButton("Normal Timer");
+		JRadioButton countdown = new JRadioButton("Countdown Timer");
+		
+		JTextField counterInput = new JTextField();
+		
+		JButton play = new JButton("Play");
+		play.setFocusPainted(false);
+		play.setBackground(Color.WHITE);
+		
+		ButtonGroup timerGroup = new ButtonGroup();
+		timerGroup.add(normalTimer);
+		timerGroup.add(countdown);
+		
+		String[] backgrounds = {"Default","Red","Orange","Yellow","Green","Blue","Purple","Pink","Etown","DISCO"};
+		
+		JComboBox options = new JComboBox(backgrounds);
+		options.setSelectedIndex(0);
+		
+		
+		easy.addActionListener(e -> setDifficulty(1));
+		medium.addActionListener(e -> setDifficulty(2));
+		hard.addActionListener(e -> setDifficulty(3));
+		veryHard.addActionListener(e -> setDifficulty(4));
+		
+		normalTimer.addActionListener(e -> setTimer(true));
+		countdown.addActionListener(e -> setTimer(false));
+		
+		play.addActionListener(e -> newGame(newGame));
+		
+		difficultyPanel.add(easy);
+		difficultyPanel.add(medium);
+		difficultyPanel.add(hard);
+		difficultyPanel.add(veryHard);
+		
+		timerPanel.add(normalTimer);
+		timerPanel.add(countdown);
+		
+		backgroundPanel.add(options);
+		
+		playPanel.add(play);
+		
+		newGame.add(difficultyPanel);
+		newGame.add(timerPanel);
+		newGame.add(backgroundPanel);
+		newGame.add(playPanel);
+		
+		
+		
 		newGame.setVisible(true);
 
 
-
-
 	}
-	
 
-	private void newGame(JFrame newGame, int difficulty) {
-		Game game = new Game(difficulty, true); //temporary fix
+
+
+
+	private void newGame(JFrame newGame) {
+		if(difficulty == 0){
+			return;
+		}
+		Game game = new Game(difficulty, normalTimer);
+		//game.changeBackground()
 		newGame.dispose();
 		dispose();
 	}
-
-	public void load() {
-		//Creates a new pop-up to allow the user to select a save file
-		JFileChooser fc = new JFileChooser();
-		File file = null;
-		File directory = new File(System.getProperty("user.dir") + "/src/resources/saves/");
-		fc.setCurrentDirectory(directory);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
-		fc.setFileFilter(filter);
-		fc.showOpenDialog(null);
-		file = fc.getSelectedFile();
-		Scanner reader = new Scanner(System.in);
-
-		if(file == null)
-			return;
-
-		//Tries to create a Scanner to read from the file
-		try {
-			reader = new Scanner(file);
-		}	catch(FileNotFoundException e) {	//If the file was not found, shows the user an error message
-			JOptionPane.showMessageDialog(null, "File not found");
-			return;
-		}
-
-		//Tries to read in a header from the file to check if it is a sudoku save file
-		String header;
-		try {
-			header = reader.nextLine();
-		} catch(NoSuchElementException e) {	//If it fails to read in a header, shows the user a message that it is not a valid save file
-			JOptionPane.showMessageDialog(null, "File is not a valid Sudoku Board!");
-			return;
-		}
-
-		//If the check for a header succeeded, checks to see if the header indicates that it is a valid save file
-		//If it is not a valid save file, shows the user an error message
-		if(!header.equals("Sudoku Board")) {
-			JOptionPane.showMessageDialog(null, "File is not a valid Sudoku Board!");
-			return;
-		} else { //If it is a valid save file, completes the load operation	          
-			//			int size = reader.nextInt();
-			//			minutes = reader.nextInt();
-			//			seconds = reader.nextInt();
-			//			for(int i = 0; i < size; ++i)
-			//				for(int j = 0; j < size; ++j)
-			//					gameBoard.setSquare(i, j, reader.nextShort());
-			//		}
-			//		
-			//		timer.start();
-
-		}
-
-		//Creates a new text file with a user specified name in the saves directory,
-		//then writes the current board information into the file
-		dispose();
+	
+	
+	
+	private void setDifficulty(int difficulty){
+		 this.difficulty = difficulty;
 	}
+	
+	private void setImage(String fileName){
+		try {
+			background = ImageIO.read(new File(fileName));
+		} catch (IOException e) {
+			System.out.println("Image not found!");
+			
+		}
+	}
+	
+	private boolean setTimer(boolean normalTimer) {
+		this.normalTimer = normalTimer;
+		return normalTimer;
+	}
+	
+
+	public void load() { //needs polish
+		
+	
+		ImageIcon pause = new ImageIcon("src/resources/pause.png");
+		Game oldGame = new Game(4,true);
+		oldGame.setVisible(false);
+		oldGame.load(pause);
+
+		dispose();
+		
+	}
+
+
+
 }
+
