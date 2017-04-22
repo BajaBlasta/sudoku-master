@@ -232,7 +232,7 @@ public class Game extends JFrame {
 			JOptionPane.showMessageDialog(null, "File is not a valid Sudoku Board!");
 			return;
 		}
-
+		
 		//If the check for a header succeeded, checks to see if the header indicates that it is a valid save file
 		//If it is not a valid save file, shows the user an error message
 		if(!header.equals("Sudoku Board")) {
@@ -243,9 +243,18 @@ public class Game extends JFrame {
 			minutes = reader.nextInt();
 			seconds = reader.nextInt();
 			countdown = reader.nextBoolean();
+			short[] puzzle = new short[size*size];
+			int puzzleIndex = 0;
 			for(int i = 0; i < size; ++i)
-				for(int j = 0; j < size; ++j)
-					gameBoard.setSquare(i, j, reader.nextShort());
+				for(int j = 0; j < size; ++j) {
+					short number = reader.nextShort();
+					gameBoard.setSquare(i, j, number);
+					puzzle[puzzleIndex++] = number;
+				}
+		
+			//regenerate Solution when loading
+			//to not break check Progress
+			Generator.solveSudoku(puzzle, gameBoard.solution);
 			
 			for(int i = 0; i < size; ++i)
 				for(int j = 0; j < size; ++j)
@@ -257,6 +266,7 @@ public class Game extends JFrame {
 			Square.checkIntersection(gameBoard.getBoard());
 		}
 		
+		reader.close();
 		timer.start();
 		pauseButton.setIcon(pause);
 		setVisible(true);
