@@ -173,8 +173,15 @@ public class StartPage extends JFrame {
 
 	public void load() { //needs polish
 		
-	
-		ImageIcon pause = new ImageIcon("src/resources/pause.png");
+		ImageIcon pauseTemp = null;
+		try {
+			InputStream stream = getClass().getResourceAsStream("pause.png"); 
+			pauseTemp = new ImageIcon(ImageIO.read(stream));
+		} catch (IOException e1) {
+			System.err.println("could not load pause and play icons");
+		}
+		final ImageIcon pause = pauseTemp;
+		
 		Game oldGame = new Game(4,true);
 		oldGame.setVisible(false);
 		oldGame.load(pause);
