@@ -8,16 +8,17 @@ public class Generator {
 	public static Random rand = new Random();
 	public final static int SIZE = 3;
 	
-	public static void printSudoku(short[] sudoku) {
+	public static String printSudoku(short[] sudoku) {
+		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < (SIZE*SIZE); i++) {
 			if(i > 0 && i%SIZE == 0) {
 				for(int j = 0; j < (SIZE*SIZE)+SIZE-1; j++)
-					System.out.print('-');
-				System.out.println();
+					sb.append('-');
+				sb.append('\n');
 			}
 			for(int j = 0; j < (SIZE*SIZE); j++) {
 				if(j > 0 && j%SIZE == 0)
-					System.out.print('|');
+					sb.append('|');
 				short value = sudoku[i*(SIZE*SIZE) + j];
 				char c;
 				if(value == 0)
@@ -26,18 +27,19 @@ public class Generator {
 					c = (char) ('0' + value);
 				else
 					c = (char) ('a' + (value - 10));
-				System.out.print(c);
+				sb.append(c);
 			}
-			System.out.println();
+			sb.append('\n');
 		}
+		return sb.toString();
 	}
 	
-	public static void printSudoku(short[] board, LinkedList<Integer> removals) {
+	public static String printSudoku(short[] board, LinkedList<Integer> removals) {
 		short[] temp = Arrays.copyOf(board, board.length);
 		for (int r : removals) {
 			temp[r] = 0;
 		}
-		printSudoku(temp);
+		return printSudoku(temp);
 	}
 	
 	public static HashSet<Short> getSubGrid(int index, short[] sudoku) {
@@ -187,7 +189,7 @@ public class Generator {
 	}
 	*/
 	
-	public static boolean isUniqelySolvable(short[] sudoku) {
+	public static boolean isUniquelySolvable(short[] sudoku) {
 	  short[] solution = new short[sudoku.length];
 	  int numSolutions = solveSudoku(sudoku, solution);
 	  return numSolutions == 1;
@@ -198,118 +200,13 @@ public class Generator {
 		for (int r : removals) {
 			temp[r] = 0;
 		}
-		return isUniqelySolvable(temp);
+		return isUniquelySolvable(temp);
 	}
 	
 	public static boolean isSolvable(short[] sudoku) {
 	  short[] solution = new short[sudoku.length];
 	  int numSolutions = solveSudoku(sudoku, solution);
 	  return numSolutions > 0;
-	}
-	
-	public static void testSolver() {
-		short[] input = new short[] {
-			1, 2, 4,  0, 0, 0,  0, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 8, 0
-		};
-		short[] solution = new short[81];
-		solveSudoku(input, solution);
-		printSudoku(solution);
-	}
-	
-	public static void testSolver2() {
-		short[] input = new short[] {
-			0, 0, 8,  2, 5, 3,  1, 4, 0,	
-			0, 3, 0,  4, 0, 0,  0, 0, 8,	
-			1, 0, 5,  0, 6, 8,  3, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 3, 0,	
-			9, 7, 0,  5, 0, 4,  0, 1, 6,	
-			0, 5, 0,  0, 0, 0,  0, 0, 0,	
-			0, 0, 6,  3, 8, 0,  2, 0, 4,	
-			5, 0, 0,  0, 0, 9,  0, 8, 0,	
-			0, 8, 9,  1, 2, 7,  6, 0, 0
-		};
-		short[] solution = new short[81];
-		solveSudoku(input, solution);
-		printSudoku(solution);
-	}
-	
-	public static void testSolver3() {
-		short[] input = new short[] {
-			1, 0, 0,  0, 0, 0,  0, 0, 3,	
-			7, 0, 2,  3, 5, 0,  0, 0, 0,	
-			0, 3, 0,  0, 0, 8,  0, 6, 0,	
-			5, 0, 0,  0, 2, 0,  4, 0, 0,	
-			0, 0, 7,  0, 0, 0,  2, 0, 0,	
-			0, 0, 4,  0, 7, 0,  0, 0, 8,	
-			0, 9, 0,  8, 0, 0,  0, 5, 0,	
-			0, 0, 0,  0, 1, 9,  7, 0, 6,	
-			8, 0, 0,  0, 0, 0,  0, 0, 1
-		};
-		short[] solution = new short[81];
-		solveSudoku(input, solution);
-		printSudoku(solution);
-	}
-	
-	public static void testSolver4() {
-		short[] input = new short[] {
-			1, 2, 4,  0, 0, 0,  0, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 0, 0,	
-			0, 0, 0,  0, 0, 0,  0, 8, 0
-		};
-		short[] solution = new short[81];
-		int solutions = solveSudoku(input, solution);
-		System.out.println("number of solutions:" + solutions);
-		printSudoku(solution);
-	}
-	
-	public static void testSolver5() {
-		short[] input = new short[] {
-			1, 0, 0,  0, 0, 0,  0, 0, 3,	
-			7, 0, 2,  3, 5, 0,  0, 0, 0,	
-			0, 3, 0,  0, 0, 8,  0, 6, 0,	
-			5, 0, 0,  0, 2, 0,  4, 0, 0,	
-			0, 0, 7,  0, 0, 0,  2, 0, 0,	
-			0, 0, 4,  0, 7, 0,  0, 0, 8,	
-			0, 9, 0,  8, 0, 0,  0, 5, 0,	
-			0, 0, 0,  0, 1, 9,  7, 0, 6,	
-			8, 0, 0,  0, 0, 0,  0, 0, 1
-		};
-		short[] solution = new short[81];
-		int solutions = solveSudoku(input, solution);
-		System.out.println("number of solutions:" + solutions);
-		printSudoku(solution);
-	}
-	
-	public static void testSolver6() {
-		short[] input = new short[] {
-			1, 1, 0,  0, 0, 0,  0, 0, 3,	
-			7, 0, 2,  3, 5, 0,  0, 0, 0,	
-			0, 3, 0,  0, 0, 8,  0, 6, 0,	
-			5, 0, 0,  0, 2, 0,  4, 0, 0,	
-			0, 0, 7,  0, 0, 0,  2, 0, 0,	
-			0, 0, 4,  0, 7, 0,  0, 0, 8,	
-			0, 9, 0,  8, 0, 0,  0, 5, 0,	
-			0, 0, 0,  0, 1, 9,  7, 0, 6,	
-			8, 0, 0,  0, 0, 0,  0, 0, 1
-		};
-		short[] solution = new short[81];
-		int solutions = solveSudoku(input, solution);
-		System.out.println("number of solutions:" + solutions);
-		printSudoku(solution);
 	}
 	
 	public static short[] generatePuzzle(short[] board, int clues) {
@@ -388,26 +285,5 @@ public class Generator {
 			temp[r] = 0;
 		}
 		return temp;
-	}
-	
-	public static void testPuzzleGen() {
-		short[] solution = generateSudoku();
-		short[] sudoku = generatePuzzle(solution, 24);
-		printSudoku(sudoku);
-		System.out.println(isUniqelySolvable(sudoku));
-	}
-	
-	public static void testPuzzleGen2() {
-		short[] solution = generateSudoku();
-		short[] sudoku = generatePuzzle(solution, 20);
-		printSudoku(sudoku);
-		System.out.println(isUniqelySolvable(sudoku));
-	}
-	
-	public static void testPuzzleGen3() {
-		short[] solution = generateSudoku();
-		short[] sudoku = generatePuzzleTimed(solution, 20, System.currentTimeMillis());
-		printSudoku(sudoku);
-		System.out.println(isUniqelySolvable(sudoku));
 	}
 }

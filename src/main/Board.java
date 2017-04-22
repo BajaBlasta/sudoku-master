@@ -32,7 +32,7 @@ public class Board extends JPanel {
 		solution = generated.clone();
 		
 		generated = removeNumbers(generated, diff);
-		System.out.println(Generator.isUniqelySolvable(generated) ? 
+		System.out.println(Generator.isUniquelySolvable(generated) ? 
 							"uniquely solvable" : "not uniquely solvable");
 		
 		createBoard(generated);
