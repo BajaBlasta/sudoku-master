@@ -216,6 +216,12 @@ public class Game extends JFrame {
       Note: All zeroes in the text file represent an empty space on the board
 	 */
 	public void load(ImageIcon pause) {
+		//create folder if necessary
+		File folder = new File(savesDir);
+		if(folder.mkdirs()) {
+			System.out.println("created folder " + savesDir);
+		}
+		
 		//Creates a new pop-up to allow the user to select a save file
 		JFileChooser fc = new JFileChooser();
 		File file = null;
