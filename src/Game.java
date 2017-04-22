@@ -78,6 +78,7 @@ public class Game extends JFrame {
 		JMenu helpMenu = new JMenu("Help");
 		JMenuItem done = new JMenuItem("Done");
 		JMenuItem check = new JMenuItem("Check Progress");
+		JMenuItem showHelp = new JMenuItem("Show Help");
 		
 		JPanel timerPanel = new JPanel();
 		timerPanel.setLayout(new BorderLayout());
@@ -98,6 +99,7 @@ public class Game extends JFrame {
 		settingsMenu.add(boardSize);
 		
 		helpMenu.add(check);
+		helpMenu.add(showHelp);
 		
 		difficultyMenu.add(easy);
 		difficultyMenu.add(medium);
@@ -139,6 +141,7 @@ public class Game extends JFrame {
 		
 		done.addActionListener(e -> done(endCheck(gameBoard.getBoard(), gameBoard.getSolution(), gameBoard.getBoardSize()),play));
 		check.addActionListener(e -> gameBoard.checkProgress());
+		showHelp.addActionListener(e -> Help.showHelp());
 		add(menuBar, BorderLayout.NORTH);
 		add(gameBoard, BorderLayout.CENTER);
 		
