@@ -1,13 +1,14 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -18,7 +19,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -39,10 +39,20 @@ public class Game extends JFrame {
 		setResizable(false);
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+	
+		ImageIcon pauseTemp = null;
+		ImageIcon playTemp = null;
 		//adds button images
-		ImageIcon pause = new ImageIcon("src/resources/pause.png");
-		ImageIcon play = new ImageIcon("src/resources/play.jpg");
+		try {
+			InputStream stream = getClass().getResourceAsStream("pause.png"); 
+			pauseTemp = new ImageIcon(ImageIO.read(stream));
+			stream = getClass().getResourceAsStream("play.jpg"); 
+			playTemp = new ImageIcon(ImageIO.read(stream));
+		} catch (IOException e1) {
+			System.err.println("could not load pause and play icons");
+		}
+		final ImageIcon play = playTemp;
+		final ImageIcon pause = pauseTemp;
 
 		//creates all components
 		JMenuBar menuBar = new JMenuBar();
@@ -118,7 +128,7 @@ public class Game extends JFrame {
 		background.add(blueJay);
 		
 		boardSize.add(four);
-		
+
 		load.addActionListener(e -> load(pause));
 		save.addActionListener(e -> save());
 		newGame.addActionListener(e -> newGame());
@@ -128,18 +138,18 @@ public class Game extends JFrame {
 		hard.addActionListener(e -> changeDifficulty(3));
 		veryHard.addActionListener(e -> changeDifficulty(4));
 		
-		defaultBoard.addActionListener(e -> changeBackground(difficulty, "src/resources/default.png"));
-		red.addActionListener(e -> changeBackground(difficulty, "src/resources/red.png"));
-		orange.addActionListener(e -> changeBackground(difficulty, "src/resources/orange.png"));
-		yellow.addActionListener(e -> changeBackground(difficulty, "src/resources/yellow.png"));
-		green.addActionListener(e -> changeBackground(difficulty, "src/resources/green.png"));
-		blue.addActionListener(e -> changeBackground(difficulty, "src/resources/blue.png"));
-		purple.addActionListener(e -> changeBackground(difficulty, "src/resources/purple.png"));
-		pink.addActionListener(e -> changeBackground(difficulty, "src/resources/pink.png"));
-		disco.addActionListener(e -> changeBackground(difficulty, "src/resources/disco.png"));
-		blueJay.addActionListener(e -> changeBackground(difficulty, "src/resources/blueJay.png"));
+		defaultBoard.addActionListener(e -> changeBackground(difficulty, "default.png"));
+		red.addActionListener(e -> changeBackground(difficulty, "red.png"));
+		orange.addActionListener(e -> changeBackground(difficulty, "orange.png"));
+		yellow.addActionListener(e -> changeBackground(difficulty, "yellow.png"));
+		green.addActionListener(e -> changeBackground(difficulty, "green.png"));
+		blue.addActionListener(e -> changeBackground(difficulty, "blue.png"));
+		purple.addActionListener(e -> changeBackground(difficulty, "purple.png"));
+		pink.addActionListener(e -> changeBackground(difficulty, "pink.png"));
+		disco.addActionListener(e -> changeBackground(difficulty, "disco.png"));
+		blueJay.addActionListener(e -> changeBackground(difficulty, "blueJay.png"));
 		
-		done.addActionListener(e -> done(endCheck(gameBoard.getBoard(), gameBoard.getSolution(), gameBoard.getBoardSize()),play));
+		done.addActionListener(e -> done(endCheck(gameBoard.getBoard(), gameBoard.getSolution(), gameBoard.getBoardSize()), play));
 		check.addActionListener(e -> gameBoard.checkProgress());
 		showHelp.addActionListener(e -> Help.showHelp());
 		add(menuBar, BorderLayout.NORTH);

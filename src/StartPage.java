@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,7 +18,8 @@ public class StartPage extends JFrame {
 
 	
 	public StartPage() throws IOException{
-		BufferedImage image = ImageIO.read(new File("src/resources/startPage.png")); //background image of the page
+		InputStream stream = getClass().getResourceAsStream("startPage.png"); 
+		BufferedImage image = ImageIO.read(stream); //background image of the page
 		JLabel background = new JLabel(new ImageIcon(image));
 		setTitle("Sudoku Master");
 		

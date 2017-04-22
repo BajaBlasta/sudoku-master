@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -22,7 +23,7 @@ public class Board extends JPanel {
 
 	public Board(int diff) {
 		//Load in the background image
-		setImage("src/resources/default.png");
+		setImage("default.png");
 		
 		setLayout(null);
 		setSize(image.getWidth(), image.getHeight());
@@ -38,8 +39,9 @@ public class Board extends JPanel {
 	}
 	
 	public static void setImage(String fileName) {
-		try {                
-			image = ImageIO.read(new File(fileName));
+		try {
+			InputStream stream = Board.class.getResourceAsStream(fileName); 
+			image = ImageIO.read(stream);
 		} catch (IOException ex) {
 			System.out.println("Image not found!");
 		}
