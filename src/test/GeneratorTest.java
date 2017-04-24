@@ -69,7 +69,6 @@ public class GeneratorTest {
 		assertEquals(expected, actual);
 	}
 	
-	
 	@Test
 	public void testGetSubgrid() {
 		short[] input = new short[] {
@@ -526,7 +525,7 @@ public class GeneratorTest {
 				count++;
 			}
 		}
-		assertEquals(25, count);
+		assertEquals(24, count);
 		assertTrue(Generator.isUniquelySolvable(sudoku));
 	}
 }
