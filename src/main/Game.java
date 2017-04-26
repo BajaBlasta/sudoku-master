@@ -373,7 +373,7 @@ public class Game extends JFrame {
 		JButton no = new JButton("No");
 		response.add(yes);
 		response.add(no);
-		yes.addActionListener(e -> yes(newGame, 1, "src/resources/default.png"));
+		yes.addActionListener(e -> yes(newGame, 1, "default.png"));
 		no.addActionListener(e -> no(newGame));
 		newGame.add(response, BorderLayout.SOUTH);
 		newGame.add(question, BorderLayout.CENTER);
