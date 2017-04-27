@@ -80,7 +80,7 @@ public class StartPage extends JFrame {
 		play.setFocusPainted(false);
 		play.setBackground(Color.WHITE);
 		
-		String[] backgrounds = {"Default", "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Disco"};	
+		String[] backgrounds = {"Default", "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Disco", "Etown"};	
 		JComboBox options = new JComboBox(backgrounds);
 		options.setSelectedIndex(0);
 		
