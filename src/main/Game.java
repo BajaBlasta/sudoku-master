@@ -82,6 +82,7 @@ public class Game extends JFrame {
 		JMenuItem purple = new JMenuItem("Purple");
 		JMenuItem pink = new JMenuItem("Pink");
 		JMenuItem disco = new JMenuItem("Disco");
+		JMenuItem etown = new JMenuItem("Etown");
 
 		JMenuItem four = new JMenuItem("4 x 4");
 
@@ -125,6 +126,7 @@ public class Game extends JFrame {
 		background.add(purple);
 		background.add(pink);
 		background.add(disco);
+		background.add(etown);
 
 		boardSize.add(four);
 
@@ -146,6 +148,7 @@ public class Game extends JFrame {
 		purple.addActionListener(e -> changeBackground(difficulty, "purple.png"));
 		pink.addActionListener(e -> changeBackground(difficulty, "pink.png"));
 		disco.addActionListener(e -> changeBackground(difficulty, "disco.png"));
+		etown.addActionListener(e -> changeBackground(difficulty, "etown.png"));
 
 		done.addActionListener(e -> done(endCheck(gameBoard.getBoard(), gameBoard.getSolution(), gameBoard.getBoardSize()), play));
 		check.addActionListener(e -> gameBoard.checkProgress());
