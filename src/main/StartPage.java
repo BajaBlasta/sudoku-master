@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,11 +13,9 @@ import javax.swing.*;
 public class StartPage extends JFrame { 
 	
 	private int difficulty = 0;
-	private BufferedImage background;
 	boolean normalTimer = true;
 	private Timer timer;
-	
-
+	private String choice = "default.png";
 	
 	public StartPage() throws IOException{
 		InputStream stream = getClass().getResourceAsStream("startPage.png"); 
@@ -45,7 +45,6 @@ public class StartPage extends JFrame {
 		add(newGame);
 		add(loadGame);
 		add(background);
-		//background.setVisible(true);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -53,36 +52,24 @@ public class StartPage extends JFrame {
 
 	private void gameOption() {
 		JFrame newGame = new JFrame();
-		
 		newGame.setTitle("Select New Game Options");
 		newGame.setSize(500, 300);
 		newGame.setResizable(false);
+		newGame.setLayout(new GridLayout(0,1));
+		newGame.setLocationRelativeTo(this);
+		
 		JPanel difficultyPanel = new JPanel();
 		JPanel timerPanel = new JPanel();
 		JPanel backgroundPanel = new JPanel();
 		JPanel playPanel = new JPanel();
 		
-		newGame.setLayout(new GridLayout(0,1));
-		newGame.setLocationRelativeTo(this);
 		JToggleButton easy = new JToggleButton("Easy");
 		JToggleButton medium = new JToggleButton("Medium");
 		JToggleButton hard = new JToggleButton("Hard");
 		JToggleButton veryHard = new JToggleButton("Very Hard");
 		
-		easy.setFocusPainted(false);
-		easy.setBackground(Color.WHITE);
-		medium.setFocusPainted(false);
-		medium.setBackground(Color.WHITE);
-		hard.setFocusPainted(false);
-		hard.setBackground(Color.WHITE);
-		veryHard.setFocusPainted(false);
-		veryHard.setBackground(Color.WHITE);
-		
 		ButtonGroup difficultyGroup = new ButtonGroup();
-		difficultyGroup.add(easy);
-		difficultyGroup.add(medium);
-		difficultyGroup.add(hard);
-		difficultyGroup.add(veryHard);
+		ButtonGroup timerGroup = new ButtonGroup();
 		
 		JRadioButton normalTimer = new JRadioButton("Normal Timer");
 		JRadioButton countdown = new JRadioButton("Countdown Timer");
@@ -93,15 +80,33 @@ public class StartPage extends JFrame {
 		play.setFocusPainted(false);
 		play.setBackground(Color.WHITE);
 		
-		ButtonGroup timerGroup = new ButtonGroup();
-		timerGroup.add(normalTimer);
-		timerGroup.add(countdown);
-		
-		String[] backgrounds = {"Default","Red","Orange","Yellow","Green","Blue","Purple","Pink","Etown","DISCO"};
-		
+		String[] backgrounds = {"Default", "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "BlueJay", "Disco"};	
 		JComboBox options = new JComboBox(backgrounds);
 		options.setSelectedIndex(0);
 		
+		options.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				choice = ((String)options.getSelectedItem() + ".png").toLowerCase();
+				setChoice(choice);
+			}
+		});
+		
+		easy.setFocusPainted(false);
+		easy.setBackground(Color.WHITE);
+		medium.setFocusPainted(false);
+		medium.setBackground(Color.WHITE);
+		hard.setFocusPainted(false);
+		hard.setBackground(Color.WHITE);
+		veryHard.setFocusPainted(false);
+		veryHard.setBackground(Color.WHITE);
+		
+		difficultyGroup.add(easy);
+		difficultyGroup.add(medium);
+		difficultyGroup.add(hard);
+		difficultyGroup.add(veryHard);
+		
+		timerGroup.add(normalTimer);
+		timerGroup.add(countdown);
 		
 		easy.addActionListener(e -> setDifficulty(1));
 		medium.addActionListener(e -> setDifficulty(2));
@@ -130,39 +135,26 @@ public class StartPage extends JFrame {
 		newGame.add(backgroundPanel);
 		newGame.add(playPanel);
 		
-		
-		
 		newGame.setVisible(true);
 
-
 	}
-
-
-
 
 	private void newGame(JFrame newGame) {
 		if(difficulty == 0){
 			return;
 		}
 		Game game = new Game(difficulty, normalTimer);
-		//game.changeBackground()
+		game.getBoard().setImage(choice);
 		newGame.dispose();
 		dispose();
 	}
 	
-	
-	
 	private void setDifficulty(int difficulty){
-		 this.difficulty = difficulty;
+		this.difficulty = difficulty;
 	}
 	
-	private void setImage(String fileName){
-		try {
-			background = ImageIO.read(new File(fileName));
-		} catch (IOException e) {
-			System.out.println("Image not found!");
-			
-		}
+	public void setChoice(String choice) {
+		this.choice = choice;
 	}
 	
 	private boolean setTimer(boolean normalTimer) {
@@ -190,6 +182,5 @@ public class StartPage extends JFrame {
 		
 	}
 
-
-
 }
+
