@@ -505,4 +505,8 @@ public class Game extends JFrame {
 			pauseButton.setIcon(pause);
 		}
 	}
+	
+	public Board getBoard() {
+		return gameBoard;
+	}
 }
