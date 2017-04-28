@@ -192,7 +192,7 @@ public class StartPage extends JFrame {
 		oldGame.setVisible(false);
 		oldGame.load(pause);
 
-		dispose();
+		//dispose();
 
 	}
 
