@@ -161,8 +161,7 @@ public class Game extends JFrame {
 		minutes = 0;
 		countdown = !normalTimer;
 
-		if(countdown == true && minutes == 0)
-			minutes = 30;
+		
 
 		field = new JTextField("Time: 0:00");
 		field.setEditable(false);
@@ -184,6 +183,11 @@ public class Game extends JFrame {
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
+		
+		if(countdown == true && minutes == 0)
+			pause(pause,play);
+			//setTimerFrame(pause, play);
+			
 	}
 
 	/*Loads a saved board
@@ -459,6 +463,45 @@ public class Game extends JFrame {
 				pauseButton.setIcon(play);
 			}
 			Alert alert = new Alert(false);
+		}
+	}
+	
+	public void setTimerFrame(ImageIcon pause, ImageIcon play){
+		JFrame timerFrame = new JFrame();
+		timerFrame.setSize(300,160);
+		timerFrame.setLayout(new BorderLayout());
+		JButton okayButton = new JButton("Okay");
+		JLabel question = new JLabel("<html>Please set the amount of minutes you want to finish the game.</html>");
+		JTextField inputField = new JTextField();
+		inputField.setText("30");
+		inputField.setBounds(150, 150, 40, 20);
+		JPanel okayPanel = new JPanel();
+		JPanel inputPanel = new JPanel();
+		
+		
+		okayPanel.add(okayButton);
+		inputPanel.add(inputField);
+		
+		timerFrame.add(question, BorderLayout.NORTH);
+		timerFrame.add(inputPanel, BorderLayout.CENTER);
+		timerFrame.add(okayPanel,BorderLayout.SOUTH);
+		
+		timerFrame.setLocationRelativeTo(null);
+		
+		timerFrame.setVisible(true);
+		
+		
+		okayButton.addActionListener(e -> setTimer(timerFrame,inputField, pause, play));
+		
+		
+		
+	}
+	
+	public void setTimer(JFrame timerFrame,JTextField inputField,ImageIcon pause, ImageIcon play){
+		if(inputField.getText() != null){
+			this.minutes = Integer.parseInt(inputField.getText());
+			timerFrame.dispose();
+			pause(pause,play);
 		}
 	}
 
