@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -12,9 +11,9 @@ import javax.swing.*;
 
 public class StartPage extends JFrame { 
 
+	private static final long serialVersionUID = 1L;
 	private int difficulty = 0;
 	boolean normalTimer = true;
-	private Timer timer;
 	private String choice = "default.png";
 
 	public StartPage() throws IOException{
@@ -105,14 +104,14 @@ public class StartPage extends JFrame {
 		JRadioButton normalTimer = new JRadioButton("Normal Timer");
 		JRadioButton countdown = new JRadioButton("Countdown Timer");
 
-		JTextField counterInput = new JTextField();
+		new JTextField();
 
 		JButton play = new JButton("Play");
 		play.setFocusPainted(false);
 		play.setBackground(Color.WHITE);
 
 		String[] backgrounds = {"Default", "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Disco", "Etown"};	
-		JComboBox options = new JComboBox(backgrounds);
+		JComboBox<Object> options = new JComboBox<Object>(backgrounds);
 		options.setSelectedIndex(0);
 
 		options.addActionListener(new ActionListener() {
@@ -175,7 +174,7 @@ public class StartPage extends JFrame {
 			return;
 		}
 		Game game = new Game(difficulty, normalTimer);
-		game.getBoard().setImage(choice);
+		Board.setImage(choice);
 		
 		if(!normalTimer)
 			game.setTimerFrame(pause, play);
