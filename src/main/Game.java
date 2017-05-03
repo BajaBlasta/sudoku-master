@@ -25,6 +25,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Game extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private final String savesDir = "saves/";
 	private Board gameBoard;
 	private Timer timer;
@@ -244,13 +245,19 @@ public class Game extends JFrame {
 		Scanner reader = new Scanner(System.in);
 
 		if(file == null)
+		{
+			reader.close();
 			return;
+		}
+		
+		reader.close();
 
 		//Tries to create a Scanner to read from the file
 		try {
 			reader = new Scanner(file);
 		}	catch(FileNotFoundException e) {	//If the file was not found, shows the user an error message
 			JOptionPane.showMessageDialog(null, "File not found");
+			reader.close();
 			return;
 		}
 
@@ -260,6 +267,7 @@ public class Game extends JFrame {
 			header = reader.nextLine();
 		} catch(NoSuchElementException e) {	//If it fails to read in a header, shows the user a message that it is not a valid save file
 			JOptionPane.showMessageDialog(null, "File is not a valid Sudoku Board!");
+			reader.close();
 			return;
 		}
 
@@ -267,6 +275,7 @@ public class Game extends JFrame {
 		//If it is not a valid save file, shows the user an error message
 		if(!header.equals("Sudoku Board")) {
 			JOptionPane.showMessageDialog(null, "File is not a valid Sudoku Board!");
+			reader.close();
 			return;
 		} else { //If it is a valid save file, completes the load operation	          
 			int size = reader.nextInt();
@@ -393,8 +402,8 @@ public class Game extends JFrame {
 	public void yes(JFrame newGame, int difficulty, String fileName) { //if the user wants a new game then clear current gameboard and dialog box
 		newGame.dispose();
 		dispose();
-		Game game = new Game(difficulty, !countdown);
-		game.gameBoard.setImage(fileName);
+		new Game(difficulty, !countdown);
+		Board.setImage(fileName);
 	}
 
 	public void no(JFrame newGame) { //if the user doesn't want a new game just close the dialog box
@@ -461,14 +470,14 @@ public class Game extends JFrame {
 				timer.stop();
 				pauseButton.setIcon(play);
 			}
-			Alert alert = new Alert(true);
+			new Alert(true);
 		}
 		else{
 			if(timer.isRunning()) {
 				timer.stop();
 				pauseButton.setIcon(play);
 			}
-			Alert alert = new Alert(false);
+			new Alert(false);
 		}
 	}
 	
