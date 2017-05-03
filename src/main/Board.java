@@ -1,21 +1,15 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Board extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	private static final int SIZE = 9;
 	private Square[][] board = new Square[SIZE][SIZE]; //grid of squares that for the board
 	protected short[] solution; //holds original solution to the puzzle
