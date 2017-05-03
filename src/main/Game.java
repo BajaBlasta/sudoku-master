@@ -220,6 +220,12 @@ public class Game extends JFrame {
       Note: All zeroes in the text file represent an empty space on the board
 	 */
 	public void load(ImageIcon pause) {
+		//Creates a new board to be modified, if there isn't one already existing
+		//(This should only happen if load is selected from the title screen)
+		//Necessary because load does not create a new board, it only updates the current board with new information
+		if(gameBoard == null)
+			gameBoard = new Board(1);
+		
 		//create folder if necessary
 		File folder = new File(savesDir);
 		if(folder.mkdirs()) {
