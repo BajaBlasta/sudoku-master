@@ -50,7 +50,7 @@ public class StartPage extends JFrame {
 		loadGame.setText("Load Game");
 		loadGame.setFocusPainted(false);
 		loadGame.setBackground(Color.WHITE);
-		loadGame.addActionListener(e -> load());
+		loadGame.addActionListener(new loadListener());
 
 		add(newGame);
 		add(loadGame);
@@ -58,6 +58,27 @@ public class StartPage extends JFrame {
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+	}
+	
+	class loadListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			InputStream stream = getClass().getResourceAsStream("pause.png");
+			ImageIcon pause = null;
+			
+			try
+			{
+				pause = new ImageIcon(ImageIO.read(stream));
+			}
+			catch(Exception a)
+			{
+				System.out.println("Could not load image");
+			}
+			
+			Game game = new Game(1, normalTimer);
+			game.load(pause);
+		}
 	}
 
 	private void gameOption(ImageIcon pauseIcon, ImageIcon playIcon) {
