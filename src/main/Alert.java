@@ -2,12 +2,11 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public class Alert extends JFrame {
 	
 	
-	
+	private static final long serialVersionUID = 1L;
 	
 	public Alert(boolean win){
 		
