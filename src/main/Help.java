@@ -16,6 +16,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 public class Help extends JPanel implements TreeSelectionListener {
 
+	private static final long serialVersionUID = 1L;
 	private JEditorPane htmlPane;
 	private JTree tree;
 	private URL helpURL;
